@@ -175,6 +175,8 @@ def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
+    print('Backward', [left_entry_box.get(), right_entry_box.get()])
+    mqtt_sender.send_message("backward", [left_entry_box.get(), right_entry_box.get()])
 
 def handle_left(left_entry_box, right_entry_box, mqtt_sender):
     """
@@ -184,7 +186,8 @@ def handle_left(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
-
+    print('Left')
+    mqtt_sender.send_message("left", [left_entry_box.get(), right_entry_box.get()])
 
 def handle_right(left_entry_box, right_entry_box, mqtt_sender):
     """
@@ -194,14 +197,16 @@ def handle_right(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
-
+    print('Right')
+    mqtt_sender.send_message("right", [left_entry_box.get(), right_entry_box.get()])
 
 def handle_stop(mqtt_sender):
     """
     Tells the robot to stop.
       :type  mqtt_sender:  com.MqttClient
     """
-
+    print('Stop')
+    mqtt_sender.send_message("stop")
 
 ###############################################################################
 # Handlers for Buttons in the ArmAndClaw frame.
@@ -211,6 +216,8 @@ def handle_raise_arm(mqtt_sender):
     Tells the robot to raise its Arm until its touch sensor is pressed.
       :type  mqtt_sender:  com.MqttClient
     """
+    print('Raise arm')
+    mqtt_sender.send_message("hoist")
 
 
 def handle_lower_arm(mqtt_sender):
@@ -218,7 +225,8 @@ def handle_lower_arm(mqtt_sender):
     Tells the robot to lower its Arm until it is all the way down.
       :type  mqtt_sender:  com.MqttClient
     """
-
+    print('Lower arm')
+    mqtt_sender.send_message("lower")
 
 def handle_calibrate_arm(mqtt_sender):
     """

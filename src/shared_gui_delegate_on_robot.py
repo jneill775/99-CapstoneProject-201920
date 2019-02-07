@@ -13,5 +13,27 @@ class Reciever(object):
         self.robot = robot
 
     def forward(self, lspeed, rspeed):
-        print('Got forward', lspeed, rspeed)
         self.robot.drive_system.go(int(lspeed), int(rspeed))
+        print('Got forward', lspeed, rspeed)
+
+    def stop(self):
+        self.robot.drive_system.stop()
+        print('Got stop')
+
+    def backward(self, lspeed, rspeed):
+        self.robot.drive_system.go(int(lspeed) * -1, int(rspeed) * -1)
+        print('Got backward', "-",lspeed, "-",rspeed)
+
+    def left(self, lspeed, rspeed):
+        self.robot.drive_system.go(int(lspeed) * -1, int(rspeed))
+        print('Got left')
+
+    def right(self, lspeed, rspeed):
+        self.robot.drive_system.go(int(lspeed), int(rspeed) * -1)
+        print('Got right')
+    def hoist(self):
+        self.robot.arm_and_claw.raise_arm()
+        print('Hoist your dongers')
+    def lower(self):
+        self.robot.arm_and_claw.lower_arm()
+        print('This wont work, fix later')

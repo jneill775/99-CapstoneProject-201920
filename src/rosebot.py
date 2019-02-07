@@ -79,6 +79,8 @@ class DriveSystem(object):
 
     def stop(self):
         """ Stops the left and right wheel motors. """
+        self.left_motor.turn_off()
+        self.right_motor.turn_off()
 
     def go_straight_for_seconds(self, seconds, speed):
         """
@@ -199,6 +201,10 @@ class ArmAndClaw(object):
             if self.touch_sensor.is_pressed():
                 self.motor.turn_off()
                 break
+
+    def lower_arm(self):
+        """ Lowers the Arm until its touch sensor is pressed. """
+        self.motor.turn_on(-100)
 
     def calibrate_arm(self):
         """
