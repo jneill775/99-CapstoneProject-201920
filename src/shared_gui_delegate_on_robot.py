@@ -7,3 +7,11 @@
   Winter term, 2018-2019.
 """
 
+class Reciever(object):
+    def __init__(self, robot):
+        """ :type robot:    rosebot.RoseBot"""
+        self.robot = robot
+
+    def forward(self, lspeed, rspeed):
+        print('Got forward', lspeed, rspeed)
+        self.robot.drive_system.go(int(lspeed), int(rspeed))
