@@ -148,8 +148,8 @@ def get_drive_system_frame(window, mqtt_sender):
 
     # Set the Button callbacks:
     go_for_seconds["command"] = lambda: handle_go_straight_for_seconds(time_entry, mqtt_sender)
-    go_for_time["command"] = lambda: handle_go_straight_for_inches_using_time(mqtt_sender)
-    go_for_encoder["command"] = lambda: handle_go_straight_for_inches_using_encoder(mqtt_sender)
+    go_for_time["command"] = lambda: handle_go_straight_for_inches_using_time(time_entry, mqtt_sender)
+    go_for_encoder["command"] = lambda: handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender)
 
     return frame
 
@@ -356,15 +356,15 @@ def handle_exit(mqtt_sender):
 
 def handle_go_straight_for_seconds(time_entry, mqtt_sender):
     print('Going straight for seconds')
-    mqtt_sender.send_message("straightforseconds", time_entry.get())
+    mqtt_sender.send_message("straightforseconds", [time_entry.get()])
 
 def handle_go_straight_for_inches_using_time(time_entry, mqtt_sender):
     print('Going straight for inches using time')
-    mqtt_sender.send_message("straightusingtime", time_entry.get())
+    mqtt_sender.send_message("straightusingtime", [time_entry.get()])
 
 def handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender):
     print('Going straight for inches using encoder')
-    mqtt_sender.send_message("straightusingencoder", time_entry.get())
+    mqtt_sender.send_message("straightusingencoder", [time_entry.get()])
 
 ###############################################################################
 # Handlers for Buttons in the Sound System frame.
