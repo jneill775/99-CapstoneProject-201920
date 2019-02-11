@@ -37,14 +37,14 @@ class Reciever(object):
     def lower(self):
         self.robot.arm_and_claw.lower_arm()
         print('Lowering arm')
-    def straightforseconds(self):
-        self.robot.drive_system.go_straight_for_seconds()
+    def straightforseconds(self, s):
+        self.robot.drive_system.go_straight_for_seconds(s, 100)
         print('Going straight for seconds')
-    def straightusingtime(self):
-        self.robot.drive_system.go_straight_for_inches_using_time()
+    def straightusingtime(self, i):
+        self.robot.drive_system.go_straight_for_inches_using_time(i, 100)
         print('Going straight for inches using time')
-    def straightusingencoder(self):
-        self.robot.drive_system.go_straight_for_inches_using_encoder()
+    def straightusingencoder(self, i):
+        self.robot.drive_system.go_straight_for_inches_using_encoder(i, 100)
         print('Going straight for inches using encoder')
     def beep(self, n):
         self.robot.sound_system.beep(n)
