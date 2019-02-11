@@ -323,6 +323,8 @@ def handle_calibrate_arm(mqtt_sender):
     all the way down, and then to mark taht position as position 0.
       :type  mqtt_sender:  com.MqttClient
     """
+    print('Calibrating arm')
+    mqtt_sender.send_message("calibrate")
 
 
 def handle_move_arm_to_position(arm_position_entry, mqtt_sender):
@@ -332,6 +334,8 @@ def handle_move_arm_to_position(arm_position_entry, mqtt_sender):
       :type  arm_position_entry  ttk.Entry
       :type  mqtt_sender:        com.MqttClient
     """
+    print('Moving arm to position')
+    mqtt_sender.send_message("movetopos", [arm_position_entry.get()])
 
 
 ###############################################################################

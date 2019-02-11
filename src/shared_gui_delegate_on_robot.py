@@ -55,3 +55,9 @@ class Reciever(object):
     def speak(self, s):
         self.robot.sound_system.speak(s)
         print('Speaking')
+    def calibrate(self):
+        self.robot.arm_and_claw.calibrate_arm()
+        print('Calibrating')
+    def movetopos(self, pos):
+        self.robot.arm_and_claw.move_arm_to_position(pos)
+        print('Moving')
