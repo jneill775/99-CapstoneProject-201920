@@ -96,7 +96,7 @@ class DriveSystem(object):
         # Note: using   time.sleep   to control the time to run is better.
         # We do it with a WHILE loop here for pedagogical reasons.
         while True:
-            if time.time() - start >= seconds:
+            if time.time() - start >= float(seconds):
                 self.stop()
                 break
 
@@ -108,8 +108,8 @@ class DriveSystem(object):
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
         seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
-        seconds = abs(inches * seconds_per_inch_at_100 / speed)
-        self.go_straight_for_seconds(seconds, speed)
+        seconds = abs(float(inches) * seconds_per_inch_at_100 / float(speed))
+        self.go_straight_for_seconds(float(seconds), float(speed))
 
     def go_straight_for_inches_using_encoder(self, inches, speed):
         """
@@ -118,15 +118,18 @@ class DriveSystem(object):
         using the encoder (degrees traveled sensor) built into the motors.
         """
         if speed > 0:
-            self.go(speed)
+            self.go(float(speed), float(speed))
         else:
-            self.go(-speed)
-        inches_per_degree = self.left_motor.WheelCircumference / 360
-        desired_degrees = abs(inches / inches_per_degree)
+            self.go(-float(speed), -float(speed))
+        inches_per_degree = math.pi / 360
+        desired_degrees = abs(float(inches) / inches_per_degree)
         self.left_motor.reset_position()
         self.right_motor.reset_position()
-        self.go(desired_degrees)
-        self.go(desired_degrees)
+
+        while True:
+            if abs(self.left_motor.get_position()) >= desired_degrees:
+                self.stop()
+                break
 
 
     # -------------------------------------------------------------------------
@@ -275,10 +278,7 @@ class ArmAndClaw(object):
     def lower_arm(self):
         """ Lowers the Arm until its touch sensor is pressed. """
         self.motor.turn_on(-100)
-        while True:
-            if self.touch_sensor.is_pressed():
-                self.motor.turn_off()
-                break
+
 
     def calibrate_arm(self):
         """
@@ -293,23 +293,23 @@ class ArmAndClaw(object):
         self.motor.reset_position()
         self.motor.turn_on(-100)
         while True:
-            if abs(self.motor.get_position())==5112:
+            if abs(self.motor.get_position())>= 5000:
                 self.motor.turn_off()
                 self.motor.reset_position()
                 break
 
     def move_arm_to_position(self, desired_arm_position):
 
-        if desired_arm_position > self.motor.get_position():
+        if int(desired_arm_position) > self.motor.get_position():
             self.motor.turn_on(100)
             while True:
-                if (self.motor.get_position() == desired_arm_position):
+                if (self.motor.get_position() >= int(desired_arm_position)):
                     self.motor.turn_off()
                     break
-        elif desired_arm_position < self.motor.get_position():
+        elif int(desired_arm_position) < self.motor.get_position():
             self.motor.turn_on(-100)
             while True:
-                if (self.motor.get_position() == desired_arm_position):
+                if (self.motor.get_position() >= int(desired_arm_position)):
                     self.motor.turn_off()
                     break
         else:
@@ -344,7 +344,7 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        self.camera = Camera()
+        #self.camera = Camera()
         # self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =
