@@ -46,3 +46,12 @@ class Reciever(object):
     def straightusingencoder(self):
         self.robot.drive_system.go_straight_for_inches_using_encoder()
         print('Going straight for inches using encoder')
+    def beep(self, n):
+        self.robot.sound_system.beep(n)
+        print('Beeping')
+    def freq(self, f, s):
+        self.robot.sound_system.play_freq(f, s)
+        print('Playing frequency')
+    def speak(self, s):
+        self.robot.sound_system.speak(s)
+        print('Speaking')

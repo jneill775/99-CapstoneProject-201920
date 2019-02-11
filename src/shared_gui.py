@@ -181,6 +181,60 @@ def get_control_frame(window, mqtt_sender):
 
     return frame
 
+def get_sound_system_frame(window, mqtt_sender):
+
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Sound System")
+    beep_label = ttk.Label(frame, text="Beep for a number of times:")
+    freq_label = ttk.Label(frame, text="Play a frequency for a period of time:")
+    speak_label = ttk.Label(frame, text="Speak a phrase:")
+
+    beep_entry = ttk.Entry(frame, width=8)
+    beep_entry.insert(0, "")
+
+    freq_entry = ttk.Entry(frame, width=8, justify=tkinter.RIGHT)
+    freq_entry.insert(0, "")
+
+    time_entry = ttk.Entry(frame, width=8)
+    time_entry.insert(0, "")
+
+    speak_entry = ttk.Entry(frame, width=8)
+    speak_entry.insert(0, "")
+
+    beep_button = ttk.Button(frame, text="Beep")
+    freq_button = ttk.Button(frame, text="Play Frequency")
+    speak_button = ttk.Button(frame, text="Speak")
+
+
+    # Grid the widgets:
+    frame_label.grid(row=0, column=1)
+    beep_label.grid(row=1, column=0)
+    speak_label.grid(row=1, column=1)
+    freq_label.grid(row=1, column=2)
+    beep_entry.grid(row=2, column=0)
+    freq_entry.grid(row=2, column=1)
+    speak_entry.grid(row=2, column=2)
+    time_entry.grid(row=2, column=3)
+
+    beep_button.grid(row=3, column=1)
+    freq_button.grid(row=4, column=0)
+    speak_button.grid(row=4, column=1)
+
+
+    # Set the button callbacks:
+    beep_button["command"] = lambda: handle_beep(beep_button, mqtt_sender)
+    freq_button["command"] = lambda: handle_freq(
+        freq_entry, time_entry, mqtt_sender)
+    speak_button["command"] = lambda: handle_speak(speak_entry, mqtt_sender)
+
+
+    return frame
+
+
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
@@ -312,3 +366,19 @@ def handle_go_straight_for_inches_using_time(time_entry, mqtt_sender):
 def handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender):
     print('Going straight for inches using encoder')
     mqtt_sender.send_message("straightusingencoder", time_entry.get())
+
+###############################################################################
+# Handlers for Buttons in the Sound System frame.
+###############################################################################
+
+def handle_beep(beep_entry, mqtt_sender):
+    print('Beeping')
+    mqtt_sender.send_message("beep", beep_entry.get())
+
+def handle_freq(freq_entry, time_entry, mqtt_sender):
+    print('Playing frequency')
+    mqtt_sender.send_message("freq", [freq_entry.get(), time_entry.get()])
+
+def handle_speak(speak_entry, mqtt_sender):
+    print('Speaking')
+    mqtt_sender.send_message("speak", speak_entry)

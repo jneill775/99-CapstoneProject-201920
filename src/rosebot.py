@@ -33,6 +33,7 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
+        self.sound_system = SoundSystem(self.sensor_system)
 
 
 ###############################################################################
@@ -327,6 +328,14 @@ class SoundSystem(object):
         Plays an increasing sequence of short tones,
         stopping when the touch sensor is pressed.
         """
+    def beep(self, n):
+        pass
+
+    def play_freq(self, f, s):
+        pass
+
+    def speak(self, s):
+        pass
 
 
 ###############################################################################
