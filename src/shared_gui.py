@@ -190,7 +190,7 @@ def get_sound_system_frame(window, mqtt_sender):
     # Construct the widgets on the frame:
     frame_label = ttk.Label(frame, text="Sound System")
     beep_label = ttk.Label(frame, text="Beep for a number of times:")
-    freq_label = ttk.Label(frame, text="Play a frequency for a period of time:")
+    freq_label = ttk.Label(frame, text="Play a frequency (box 1) for a period of time(box 2):")
     speak_label = ttk.Label(frame, text="Speak a phrase:")
 
     beep_entry = ttk.Entry(frame, width=8)
@@ -220,15 +220,14 @@ def get_sound_system_frame(window, mqtt_sender):
     speak_entry.grid(row=2, column=2)
     time_entry.grid(row=2, column=3)
 
-    beep_button.grid(row=3, column=1)
-    freq_button.grid(row=4, column=0)
-    speak_button.grid(row=4, column=1)
+    beep_button.grid(row=3, column=0)
+    freq_button.grid(row=3, column=2)
+    speak_button.grid(row=3, column=1)
 
 
     # Set the button callbacks:
-    beep_button["command"] = lambda: handle_beep(beep_button, mqtt_sender)
-    freq_button["command"] = lambda: handle_freq(
-        freq_entry, time_entry, mqtt_sender)
+    beep_button["command"] = lambda: handle_beep(beep_entry, mqtt_sender)
+    freq_button["command"] = lambda: handle_freq(freq_entry, time_entry, mqtt_sender)
     speak_button["command"] = lambda: handle_speak(speak_entry, mqtt_sender)
 
 
@@ -373,7 +372,7 @@ def handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender):
 
 def handle_beep(beep_entry, mqtt_sender):
     print('Beeping')
-    mqtt_sender.send_message("beep", beep_entry.get())
+    mqtt_sender.send_message("beep", [beep_entry.get()])
 
 def handle_freq(freq_entry, time_entry, mqtt_sender):
     print('Playing frequency')
@@ -381,4 +380,4 @@ def handle_freq(freq_entry, time_entry, mqtt_sender):
 
 def handle_speak(speak_entry, mqtt_sender):
     print('Speaking')
-    mqtt_sender.send_message("speak", speak_entry)
+    mqtt_sender.send_message("speak", [speak_entry.get()])
