@@ -118,6 +118,41 @@ def get_arm_frame(window, mqtt_sender):
 
     return frame
 
+def get_drive_system_frame(window, mqtt_sender):
+
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="Drive System")
+    label1 = ttk.Label(frame, text="Duration of Movement (seconds) OR Desired Distance (inches):")
+    time_entry = ttk.Entry(frame, width=8)
+
+    go_for_seconds = ttk.Button(frame, text="Go straight for seconds")
+    go_for_time = ttk.Button(frame, text="Go straight for inches using time")
+    go_for_encoder = ttk.Button(frame, text="Go straight for inches using encoder")
+
+    blank_label = ttk.Label(frame, text="")
+
+    # Grid the widgets:
+    frame_label.grid(row=0, column=1)
+    label1.grid(row=1, column=0)
+    time_entry.grid(row=1, column=1)
+
+
+    blank_label.grid(row=2, column=1)
+    go_for_seconds.grid(row=3, column=0)
+    go_for_time.grid(row=3, column=1)
+    go_for_encoder.grid(row=3, column=2)
+
+    # Set the Button callbacks:
+    go_for_seconds["command"] = lambda: handle_go_straight_for_seconds(time_entry, mqtt_sender)
+    go_for_time["command"] = lambda: handle_go_straight_for_inches_using_time(mqtt_sender)
+    go_for_encoder["command"] = lambda: handle_go_straight_for_inches_using_encoder(mqtt_sender)
+
+    return frame
+
 
 def get_control_frame(window, mqtt_sender):
     """
@@ -262,3 +297,18 @@ def handle_exit(mqtt_sender):
     Then exit this program.
       :type mqtt_sender: com.MqttClient
     """
+###############################################################################
+# Handlers for Buttons in the Drive System frame.
+###############################################################################
+
+def handle_go_straight_for_seconds(time_entry, mqtt_sender):
+    print('Going straight for seconds')
+    mqtt_sender.send_message("straightforseconds", time_entry.get())
+
+def handle_go_straight_for_inches_using_time(time_entry, mqtt_sender):
+    print('Going straight for inches using time')
+    mqtt_sender.send_message("straightusingtime", time_entry.get())
+
+def handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender):
+    print('Going straight for inches using encoder')
+    mqtt_sender.send_message("straightusingencoder", time_entry.get())
