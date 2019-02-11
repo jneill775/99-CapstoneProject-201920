@@ -36,4 +36,13 @@ class Reciever(object):
         print('Hoist your dongers')
     def lower(self):
         self.robot.arm_and_claw.lower_arm()
-        print('This wont work, fix later')
+        print('Lowering arm')
+    def straightforseconds(self):
+        self.robot.drive_system.go_straight_for_seconds()
+        print('Going straight for seconds')
+    def straightusingtime(self):
+        self.robot.drive_system.go_straight_for_inches_using_time()
+        print('Going straight for inches using time')
+    def straightusingencoder(self):
+        self.robot.drive_system.go_straight_for_inches_using_encoder()
+        print('Going straight for inches using encoder')
