@@ -87,10 +87,18 @@ class DriveSystem(object):
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of seconds.
         """
+        start = time.time()
+
+        if speed > 0:
+            self.go(speed)
+        else:
+            self.go(-speed)
+
         while True:
             if time.time() - start >= seconds:
                 self.stop()
                 break
+
 
     def go_straight_for_inches_using_time(self, inches, speed):
         """
@@ -108,6 +116,17 @@ class DriveSystem(object):
         at the given speed for the given number of inches,
         using the encoder (degrees traveled sensor) built into the motors.
         """
+        if speed > 0:
+            self.go(speed)
+        else:
+            self.go(-speed)
+        inches_per_degree = self.left_motor.WheelCircumference / 360
+        desired_degrees = abs(inches / inches_per_degree)
+        self.left_motor.reset_position()
+        self.right_motor.reset_position()
+        self.go(desired_degrees)
+        self.go(desired_degrees)
+
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
