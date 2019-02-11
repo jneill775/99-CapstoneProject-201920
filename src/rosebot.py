@@ -30,10 +30,14 @@ import math
 class RoseBot(object):
     def __init__(self):
         # Use these instance variables
+        self.tone_maker = ToneMaker()
+        self.speech_maker = SpeechMaker()
+        self.song_maker = SongMaker()
         self.sensor_system = SensorSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
         self.sound_system = SoundSystem(self.sensor_system)
+
 
 
 ###############################################################################
@@ -89,12 +93,9 @@ class DriveSystem(object):
         at the given speed for the given number of seconds.
         """
         start = time.time()
-
-        if speed > 0:
-            self.go(speed)
-        else:
-            self.go(-speed)
-
+        self.go(speed, speed)
+        # Note: using   time.sleep   to control the time to run is better.
+        # We do it with a WHILE loop here for pedagogical reasons.
         while True:
             if time.time() - start >= seconds:
                 self.stop()
