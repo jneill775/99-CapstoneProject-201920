@@ -132,6 +132,7 @@ def get_drive_system_frame(window, mqtt_sender):
     ir_label = ttk.Label(frame, text="IR Movement")
     delta_label = ttk.Label(frame, text="Delta")
     inches_label = ttk.Label(frame, text="Inches")
+    camera_label = ttk.Label(frame, text="Camera Movement")
     less_than_entry = ttk.Entry(frame, width=8)
     greater_than_entry = ttk.Entry(frame, width=8)
     straight_until_color_is_entry = ttk.Entry(frame, width=8)
@@ -140,6 +141,8 @@ def get_drive_system_frame(window, mqtt_sender):
     backward_until_greater_than_entry = ttk.Entry(frame, width=8)
     distance_within_entry_delta = ttk.Entry(frame, width=8)
     distance_within_entry_inches = ttk.Entry(frame, width=8)
+    clockwise_area_entry = ttk.Entry(frame, width=8)
+    counterclockwise_area_entry = ttk.Entry(frame, width=8)
 
 
     straight_until_less_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
@@ -152,12 +155,16 @@ def get_drive_system_frame(window, mqtt_sender):
     go_for_seconds = ttk.Button(frame, text="Go straight for seconds")
     go_for_time = ttk.Button(frame, text="Go straight for inches using time")
     go_for_encoder = ttk.Button(frame, text="Go straight for inches using encoder")
+    camera_display_button = ttk.Button(frame, text="Display Camera Data")
+    clockwise_area_button = ttk.Button(frame, text="Spin Clockwise Area:")
+    counterclockwise_area_button = ttk.Button(frame, text="Spin Counterclockwise Area:")
 
     blank_label = ttk.Label(frame, text="")
 
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
+    camera_label.grid(row=5, column=7)
     label1.grid(row=1, column=0)
     time_entry.grid(row=1, column=1)
     color_label.grid(row=5, column=1)
@@ -172,6 +179,9 @@ def get_drive_system_frame(window, mqtt_sender):
     inches_label.grid(row=8, column=4)
     distance_within_entry_delta.grid(row=9, column=3)
     distance_within_entry_inches.grid(row=9, column=4)
+    clockwise_area_entry.grid(row=7, column=7)
+    counterclockwise_area_entry.grid(row=8, column=7)
+
 
 
     blank_label.grid(row=2, column=1)
@@ -186,6 +196,9 @@ def get_drive_system_frame(window, mqtt_sender):
     go_for_seconds.grid(row=3, column=0)
     go_for_time.grid(row=3, column=1)
     go_for_encoder.grid(row=3, column=2)
+    camera_display_button.grid(row=6, column=7)
+    clockwise_area_button.grid(row=7, column=6)
+    counterclockwise_area_button.grid(row=8, column=6)
 
     # Set the Button callbacks:
     go_for_seconds["command"] = lambda: handle_go_straight_for_seconds(time_entry, mqtt_sender)
@@ -198,6 +211,9 @@ def get_drive_system_frame(window, mqtt_sender):
     forward_until_less_than_button["command"] = lambda: handle_forward_until_less(forward_until_less_than_entry, mqtt_sender)
     backward_until_greater_than_button["command"] = lambda: handle_backward_until_greater(backward_until_greater_than_entry, mqtt_sender)
     go_until_within_button["command"] = lambda: handle_go_until_within(distance_within_entry_delta, distance_within_entry_inches, mqtt_sender)
+    clockwise_area_button["command"] = lambda: handle_go_clockwise(clockwise_area_entry, mqtt_sender)
+    counterclockwise_area_button["command"] = lambda: handle_go_counterclockwise(counterclockwise_area_entry, mqtt_sender)
+    camera_display_button["command"] = lambda: handle_camera_display(mqtt_sender)
 
     return frame
 
@@ -450,6 +466,17 @@ def handle_go_until_within(distance_within_entry_delta, distance_within_entry_in
     print('Going forward until distance is +- ', distance_within_entry_delta, 'inches from ', distance_within_entry_inches)
     mqtt_sender.send_message("distwithinrange", [distance_within_entry_delta.get(), distance_within_entry_inches.get()])
 
+def handle_go_clockwise(clockwise_area_entry, mqtt_sender):
+    print('Going clockwise for area ', clockwise_area_entry)
+    mqtt_sender.send_message("clockwise", [clockwise_area_entry.get()])
+
+def handle_go_counterclockwise(counterclockwise_area_entry, mqtt_sender):
+    print('Going counterclockwise for area ', counterclockwise_area_entry)
+    mqtt_sender.send_message("counterclockwise", [counterclockwise_area_entry.get()])
+
+def handle_camera_display(mqtt_sender):
+    print('Displaying Camera Feed')
+    mqtt_sender.send_message("display")
 
 ###############################################################################
 # Handlers for Buttons in the Sound System frame.

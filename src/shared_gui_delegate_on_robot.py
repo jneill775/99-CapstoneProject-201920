@@ -88,3 +88,12 @@ class Reciever(object):
     def distwithinrange(self, delta, inches):
         self.robot.drive_system.go_until_distance_is_within(float(delta), float(inches), 100)
         print('Going forward until distance is +- ', delta, 'inches from ',inches)
+    def clockwise(self, area):
+        self.robot.drive_system.spin_clockwise_until_sees_object(100, area)
+        print('Spinning clockwise')
+    def counterclockwise(self, area):
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(100, area)
+        print('Spinning counterclockwise')
+    def display(self):
+        self.robot.drive_system.display_camera_data()
+        print('Displaying Camera Feed')
