@@ -129,16 +129,26 @@ def get_drive_system_frame(window, mqtt_sender):
     label1 = ttk.Label(frame, text="Duration of Movement OR Desired Distance:")
     time_entry = ttk.Entry(frame, width=8)
     color_label = ttk.Label(frame, text="Color Sensor Movement")
+    ir_label = ttk.Label(frame, text="IR Movement")
+    delta_label = ttk.Label(frame, text="Delta")
+    inches_label = ttk.Label(frame, text="Inches")
     less_than_entry = ttk.Entry(frame, width=8)
     greater_than_entry = ttk.Entry(frame, width=8)
     straight_until_color_is_entry = ttk.Entry(frame, width=8)
     straight_until_color_is_not_entry = ttk.Entry(frame, width=8)
+    forward_until_less_than_entry = ttk.Entry(frame, width=8)
+    backward_until_greater_than_entry = ttk.Entry(frame, width=8)
+    distance_within_entry_delta = ttk.Entry(frame, width=8)
+    distance_within_entry_inches = ttk.Entry(frame, width=8)
 
 
     straight_until_less_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
     straight_until_greater_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
     straight_until_color_is_button = ttk.Button(frame, text="Go straight until color is:")
     straight_until_color_is_not_button = ttk.Button(frame, text="Go straight until color is not:")
+    forward_until_less_than_button = ttk.Button(frame, text="Go forward until dist less than:")
+    backward_until_greater_than_button = ttk.Button(frame, text="Go backward until dist greater than:")
+    go_until_within_button = ttk.Button(frame, text="Go until distance is within:")
     go_for_seconds = ttk.Button(frame, text="Go straight for seconds")
     go_for_time = ttk.Button(frame, text="Go straight for inches using time")
     go_for_encoder = ttk.Button(frame, text="Go straight for inches using encoder")
@@ -155,13 +165,23 @@ def get_drive_system_frame(window, mqtt_sender):
     greater_than_entry.grid(row=7, column=1)
     straight_until_color_is_entry.grid(row=8, column=1)
     straight_until_color_is_not_entry.grid(row=9, column=1)
+    ir_label.grid(row=5, column=3)
+    forward_until_less_than_entry.grid(row=6, column=3)
+    backward_until_greater_than_entry.grid(row=7, column=3)
+    delta_label.grid(row=8, column=3)
+    inches_label.grid(row=8, column=4)
+    distance_within_entry_delta.grid(row=9, column=3)
+    distance_within_entry_inches.grid(row=9, column=4)
 
 
     blank_label.grid(row=2, column=1)
+    forward_until_less_than_button.grid(row=6, column=2)
+    backward_until_greater_than_button.grid(row=7, column=2)
     straight_until_color_is_button.grid(row=8, column=0)
     straight_until_color_is_not_button.grid(row=9, column=0)
     straight_until_less_button.grid(row=6, column=0)
     straight_until_greater_button.grid(row=7, column=0)
+    go_until_within_button.grid(row=9, column=2)
     blank_label.grid(row=4, column=1)
     go_for_seconds.grid(row=3, column=0)
     go_for_time.grid(row=3, column=1)
@@ -175,6 +195,9 @@ def get_drive_system_frame(window, mqtt_sender):
     straight_until_greater_button["command"] = lambda : handle_straight_until_greater_than(greater_than_entry, mqtt_sender)
     straight_until_color_is_button["command"] = lambda: handle_straight_until_color_is(straight_until_color_is_entry, mqtt_sender)
     straight_until_color_is_not_button["command"] = lambda: handle_straight_until_color_is_not(straight_until_color_is_not_entry, mqtt_sender)
+    forward_until_less_than_button["command"] = lambda: handle_forward_until_less(forward_until_less_than_entry, mqtt_sender)
+    backward_until_greater_than_button["command"] = lambda: handle_backward_until_greater(backward_until_greater_than_entry, mqtt_sender)
+    go_until_within_button["command"] = lambda: handle_go_until_within(distance_within_entry_delta, distance_within_entry_inches, mqtt_sender)
 
     return frame
 
@@ -414,6 +437,18 @@ def handle_straight_until_color_is(straight_until_color_is_entry, mqtt_sender):
 def handle_straight_until_color_is_not(straight_until_color_is_not_entry, mqtt_sender):
     print('Going straight until color is not ', straight_until_color_is_not_entry)
     mqtt_sender.send_message("straightuntilcolorisnot", [straight_until_color_is_not_entry.get()])
+
+def handle_forward_until_less(forward_until_less_than_entry, mqtt_sender):
+    print('Going forward until distance is less than ', forward_until_less_than_entry)
+    mqtt_sender.send_message("straightdistless", [forward_until_less_than_entry.get()])
+
+def handle_backward_until_greater(backward_until_greater_than_entry, mqtt_sender):
+    print('Going backward until distance is greater than ', backward_until_greater_than_entry)
+    mqtt_sender.send_message("straightdistmore", [backward_until_greater_than_entry.get()])
+
+def handle_go_until_within(distance_within_entry_delta, distance_within_entry_inches, mqtt_sender):
+    print('Going forward until distance is +- ', distance_within_entry_delta, 'inches from ', distance_within_entry_inches)
+    mqtt_sender.send_message("distwithinrange", [distance_within_entry_delta.get(), distance_within_entry_inches.get()])
 
 
 ###############################################################################

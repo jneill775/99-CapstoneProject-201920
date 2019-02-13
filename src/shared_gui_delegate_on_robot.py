@@ -79,3 +79,12 @@ class Reciever(object):
     def straightuntilcolorisnot(self, color):
         self.robot.drive_system.go_straight_until_color_is_not(color, 100)
         print('Going straight until color is not ', color)
+    def straightdistless(self, distance):
+        self.robot.drive_system.go_forward_until_distance_is_less_than(float(distance), 100)
+        print('Going forward until distance is less than ', distance)
+    def straightdistmore(self, distance):
+        self.robot.drive_system.go_backward_until_distance_is_greater_than(float(distance), 100)
+        print('Going backward until distance is greater than ', distance)
+    def distwithinrange(self, delta, inches):
+        self.robot.drive_system.go_until_distance_is_within(float(delta), float(inches), 100)
+        print('Going forward until distance is +- ', delta, 'inches from ',inches)
