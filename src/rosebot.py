@@ -786,6 +786,8 @@ class Beeper(object):
 
         :rtype subprocess.Popen
         """
+
+
         return self._beeper.beep()
 
 
@@ -881,6 +883,7 @@ class SpeechMaker(object):
         :type  phrase:  str
         :rtype subprocess.Popen
         """
+
         return self._speech_maker.speak(phrase)
 
 
