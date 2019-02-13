@@ -126,22 +126,43 @@ def get_drive_system_frame(window, mqtt_sender):
 
     # Construct the widgets on the frame:
     frame_label = ttk.Label(frame, text="Drive System")
-    label1 = ttk.Label(frame, text="Duration of Movement (seconds) OR Desired Distance (inches):")
+    label1 = ttk.Label(frame, text="Duration of Movement OR Desired Distance:")
     time_entry = ttk.Entry(frame, width=8)
+    color_label = ttk.Label(frame, text="Color Sensor Movement")
+    less_than_entry = ttk.Entry(frame, width=8)
+    greater_than_entry = ttk.Entry(frame, width=8)
+    straight_until_color_is_entry = ttk.Entry(frame, width=8)
+    straight_until_color_is_not_entry = ttk.Entry(frame, width=8)
 
+
+    straight_until_less_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
+    straight_until_greater_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
+    straight_until_color_is_button = ttk.Button(frame, text="Go straight until color is:")
+    straight_until_color_is_not_button = ttk.Button(frame, text="Go straight until color is not:")
     go_for_seconds = ttk.Button(frame, text="Go straight for seconds")
     go_for_time = ttk.Button(frame, text="Go straight for inches using time")
     go_for_encoder = ttk.Button(frame, text="Go straight for inches using encoder")
 
     blank_label = ttk.Label(frame, text="")
 
+
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
     label1.grid(row=1, column=0)
     time_entry.grid(row=1, column=1)
+    color_label.grid(row=5, column=1)
+    less_than_entry.grid(row=6, column=1)
+    greater_than_entry.grid(row=7, column=1)
+    straight_until_color_is_entry.grid(row=8, column=1)
+    straight_until_color_is_not_entry.grid(row=9, column=1)
 
 
     blank_label.grid(row=2, column=1)
+    straight_until_color_is_button.grid(row=8, column=0)
+    straight_until_color_is_not_button.grid(row=9, column=0)
+    straight_until_less_button.grid(row=6, column=0)
+    straight_until_greater_button.grid(row=7, column=0)
+    blank_label.grid(row=4, column=1)
     go_for_seconds.grid(row=3, column=0)
     go_for_time.grid(row=3, column=1)
     go_for_encoder.grid(row=3, column=2)
@@ -150,6 +171,10 @@ def get_drive_system_frame(window, mqtt_sender):
     go_for_seconds["command"] = lambda: handle_go_straight_for_seconds(time_entry, mqtt_sender)
     go_for_time["command"] = lambda: handle_go_straight_for_inches_using_time(time_entry, mqtt_sender)
     go_for_encoder["command"] = lambda: handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender)
+    straight_until_less_button["command"] = lambda: handle_straight_until_less_than(less_than_entry, mqtt_sender)
+    straight_until_greater_button["command"] = lambda : handle_straight_until_greater_than(greater_than_entry, mqtt_sender)
+    straight_until_color_is_button["command"] = lambda: handle_straight_until_color_is(straight_until_color_is_entry, mqtt_sender)
+    straight_until_color_is_not_button["command"] = lambda: handle_straight_until_color_is_not(straight_until_color_is_not_entry, mqtt_sender)
 
     return frame
 
@@ -373,6 +398,23 @@ def handle_go_straight_for_inches_using_time(time_entry, mqtt_sender):
 def handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender):
     print('Going straight for inches using encoder')
     mqtt_sender.send_message("straightusingencoder", [time_entry.get()])
+
+def handle_straight_until_less_than(less_than_entry, mqtt_sender):
+    print('Going straight until intensity is less than ', less_than_entry)
+    mqtt_sender.send_message("straightuntilless", [less_than_entry.get()])
+
+def handle_straight_until_greater_than(greater_than_entry, mqtt_sender):
+    print('Going straight until intensity is greater than ', greater_than_entry)
+    mqtt_sender.send_message("straightuntilgreater", [greater_than_entry.get()])
+
+def handle_straight_until_color_is(straight_until_color_is_entry, mqtt_sender):
+    print('Going straight until color is ', straight_until_color_is_entry)
+    mqtt_sender.send_message("straightuntilcoloris", [straight_until_color_is_entry.get()])
+
+def handle_straight_until_color_is_not(straight_until_color_is_not_entry, mqtt_sender):
+    print('Going straight until color is not ', straight_until_color_is_not_entry)
+    mqtt_sender.send_message("straightuntilcolorisnot", [straight_until_color_is_not_entry.get()])
+
 
 ###############################################################################
 # Handlers for Buttons in the Sound System frame.

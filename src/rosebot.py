@@ -594,7 +594,7 @@ class InfraredProximitySensor(object):
         distance = (48 / cm_per_inch) * self.get_distance() / 100
         print(distance)
         return distance
-        
+
 
 
 ###############################################################################

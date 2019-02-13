@@ -67,3 +67,15 @@ class Reciever(object):
     def movetopos(self, pos):
         self.robot.arm_and_claw.move_arm_to_position(pos)
         print('Moving')
+    def straightuntilless(self, intensity):
+        self.robot.drive_system.go_straight_until_intensity_is_less_than(float(intensity))
+        print('Going straight until intensity is less than ', intensity)
+    def straightuntilgreater(self, intensity):
+        self.robot.drive_system.go_straight_until_intensity_is_greater_than(float(intensity))
+        print('Going straight until intensity is less than ', intensity)
+    def straightuntilcoloris(self, color):
+        self.robot.drive_system.go_straight_until_color_is(color, 100)
+        print('Going straight until color is ', color)
+    def straightuntilcolorisnot(self, color):
+        self.robot.drive_system.go_straight_until_color_is_not(color, 100)
+        print('Going straight until color is not ', color)
