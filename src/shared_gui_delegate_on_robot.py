@@ -72,7 +72,7 @@ class Reciever(object):
         print('Going straight until intensity is less than ', intensity)
     def straightuntilgreater(self, intensity):
         self.robot.drive_system.go_straight_until_intensity_is_greater_than(float(intensity))
-        print('Going straight until intensity is less than ', intensity)
+        print('Going straight until intensity is greater than ', intensity)
     def straightuntilcoloris(self, color):
         self.robot.drive_system.go_straight_until_color_is(color, 100)
         print('Going straight until color is ', color)
