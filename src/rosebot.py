@@ -243,12 +243,12 @@ class DriveSystem(object):
     # Methods for driving that use the infrared beacon sensor.
     # -------------------------------------------------------------------------
 
-    def go_and_increase_LEDfrequency(self,speed,frequency):
+    def go_and_increase_LEDfrequency(self,frequency):
         robot = RoseBot()
         init_dis = 1000
         int_frequency = 10
         while True:
-            self.go(speed, speed)
+            self.go(100, 100)
             distance = self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
             if distance < init_dis:
                 print(frequency)

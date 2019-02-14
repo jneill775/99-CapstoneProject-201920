@@ -100,7 +100,7 @@ def get_my_own_frame(window,mqtt_sender):
 
 def handle_LED_freq_button(LED_freq_entry, mqtt_sender):
     print('LED shifting')
-    mqtt_sender.send_message("LEDfreq", [LED_freq_entry.get()])
+    mqtt_sender.send_message("LEDfrequency", [LED_freq_entry.get()])
 
 
 

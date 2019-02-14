@@ -45,6 +45,7 @@ def go_and_increase_LEDfrequency(speed,frequency):
     robot = rosebot.RoseBot()
     robot.drive_system.go_and_increase_LEDfrequency(speed,frequency)
 
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
