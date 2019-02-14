@@ -18,7 +18,7 @@ def main():
     """
     # run_test_arm()
     # calibrate_arm()s
-    real_thing()
+    # real_thing()
 def run_test_arm():
     robot = rosebot.RoseBot()
     robot.arm_and_claw.raise_arm()
@@ -37,14 +37,14 @@ def lower_arm():
 
 def real_thing():
     robot = rosebot.RoseBot()
-    receiver = rec.Receiver(robot)
+    receiver = rec.receiver(robot)
     mqtt_reciver = com.MqttClient(receiver)
     mqtt_reciver.connect_to_pc()
 
     while True:
         time.sleep(0.01)
         if receiver.is_time_to_stop:
-            break  
+            break
 
 def tones_9(self, freq, iteration):
     self.robot.drive_system.go(100, 100)
