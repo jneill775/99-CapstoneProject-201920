@@ -146,7 +146,7 @@ def get_drive_system_frame(window, mqtt_sender):
 
 
     straight_until_less_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
-    straight_until_greater_button =  ttk.Button(frame, text="Go straight until intensity is less than:")
+    straight_until_greater_button =  ttk.Button(frame, text="Go straight until intensity is greater than:")
     straight_until_color_is_button = ttk.Button(frame, text="Go straight until color is:")
     straight_until_color_is_not_button = ttk.Button(frame, text="Go straight until color is not:")
     forward_until_less_than_button = ttk.Button(frame, text="Go forward until dist less than:")
