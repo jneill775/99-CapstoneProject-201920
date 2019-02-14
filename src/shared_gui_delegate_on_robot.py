@@ -6,6 +6,7 @@
     and PUT_YOUR_NAMES_HERE.
   Winter term, 2018-2019.
 """
+import time
 
 class Reciever(object):
     def __init__(self, robot):
@@ -97,3 +98,14 @@ class Reciever(object):
     def display(self):
         self.robot.drive_system.display_camera_data()
         print('Displaying Camera Feed')
+    def beepfreq(self, f, m):
+        initialdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+        while True:
+            self.robot.sound_system.beeper.beep().wait()
+            currentdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            ratio = initialdist/currentdist
+            intitialtime = time.time()
+            while True:
+                if time.time() - intitialtime >= f:
+                    break
+            f = f/(ratio*m)
