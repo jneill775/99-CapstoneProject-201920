@@ -554,7 +554,7 @@ class ColorSensor(object):
         Example usage:
             red, green, blue = color_sensor.get_raw_color
         """
-
+        return self._color_sensor.red(), self._color_sensor.green(), self._color_sensor.blue()
 
 ###############################################################################
 # InfraredProximitySensor

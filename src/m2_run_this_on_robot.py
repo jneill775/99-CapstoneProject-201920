@@ -38,12 +38,12 @@ def lower_arm():
 def real_thing():
     robot = rosebot.RoseBot()
     receiver = rec.Receiver(robot)
-    mqtt_reciver = com.MqttClient(delegate)
+    mqtt_reciver = com.MqttClient(receiver)
     mqtt_reciver.connect_to_pc()
 
     while True:
         time.sleep(0.01)
-        if delegate.is_time_to_stop:
+        if receiver.is_time_to_stop:
             break
 
 
