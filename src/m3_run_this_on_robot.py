@@ -29,7 +29,18 @@ def real_thing():
         if delegate.is_time_to_stop:
             break
 
+def beeper(time):
+    robot = rosebot.RoseBot()
+    robot.sound_system.beeper.beep(time)
 
+def tone_make(frequency, duration):
+    robot = rosebot.RoseBot()
+    robot.sound_system.tone_maker.play_tone(frequency,duration).wait()
+
+
+def speak(str):
+    robot = rosebot.RoseBot()
+    robot.sound_system.speech_maker.speak(str)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
