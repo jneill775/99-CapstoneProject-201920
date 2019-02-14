@@ -37,10 +37,13 @@ def tone_make(frequency, duration):
     robot = rosebot.RoseBot()
     robot.sound_system.tone_maker.play_tone(frequency,duration).wait()
 
-
 def speak(str):
     robot = rosebot.RoseBot()
     robot.sound_system.speech_maker.speak(str)
+
+def go_and_increase_LEDfrequency(speed,frequency):
+    robot = rosebot.RoseBot()
+    robot.drive_system.go_and_increase_LEDfrequency(speed,frequency)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

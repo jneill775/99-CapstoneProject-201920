@@ -243,6 +243,22 @@ class DriveSystem(object):
     # Methods for driving that use the infrared beacon sensor.
     # -------------------------------------------------------------------------
 
+    def go_and_increase_LEDfrequency(self,speed,frequency):
+        robot = RoseBot()
+        init_dis = 1000
+        int_frequency = 10
+        while True:
+            self.go(speed, speed)
+            distance = self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            if distance < init_dis:
+                print(frequency)
+                frequency = frequency + int_frequency
+                init_dis = distance
+            robot.led_system.LED.shift(frequency)
+            if distance < 3:
+                self.stop()
+                break
+
     def spin_clockwise_until_beacon_heading_is_nonnegative(self, speed):
         """
         Spins clockwise at the given speed until the heading to the Beacon
@@ -997,6 +1013,14 @@ class LED(object):
           left_led.set_color(0.5, 0.33)
         """
         self.set_color_by_name((fraction_red, fraction_green))
+
+    def shift(self,frequency):
+        while True:
+                self.set_color_by_fractions(0,1).wait(int(100/frequency))
+                self.set_color_by_fractions(1,0).wait(int(100/frequency))
+                self.set_color_by_fractions(1,1).wait(int(100/frequency))
+                self.turn_off()
+
 
 
 ###############################################################################
