@@ -55,9 +55,9 @@ class Reciever(object):
         print('Beeping')
         for k in range(int(n)):
             self.robot.sound_system.beeper.beep().wait()
-    def freq(self, f, s):
+    def freq(self, f, s):   
         print('Playing frequency')
-        self.robot.sound_system.tone_maker.play_tone(f, s).wait()
+        self.robot.sound_system.tone_maker.play_tone(int(f), int(s)).wait()
     def speak(self, s):
         print('Speaking')
         self.robot.sound_system.speech_maker.speak(s)
