@@ -256,13 +256,10 @@ def get_sound_system_frame(window, mqtt_sender):
     beep_label = ttk.Label(frame, text="Beep for a number of times:")
     freq_label = ttk.Label(frame, text="Play a frequency (box 1) for a period of time(box 2):")
     speak_label = ttk.Label(frame, text="Speak a phrase:")
-    beep_freq_label = ttk.Label(frame, text="Beep Frequency:")
-    beep_rate_label = ttk.Label(frame, text="Beep Rate:")
+
 
     beep_entry = ttk.Entry(frame, width=8)
     beep_entry.insert(0, "")
-
-    beep_rate_entry = ttk.Entry(frame, width=8)
 
     freq_entry = ttk.Entry(frame, width=8, justify=tkinter.RIGHT)
     freq_entry.insert(0, "")
@@ -273,18 +270,15 @@ def get_sound_system_frame(window, mqtt_sender):
     speak_entry = ttk.Entry(frame, width=8)
     speak_entry.insert(0, "")
 
-    beep_freq_entry = ttk.Entry(frame, width=8)
+
 
     beep_button = ttk.Button(frame, text="Beep")
-    beep_freq_button = ttk.Button(frame, text="Beep")
+
     freq_button = ttk.Button(frame, text="Play Frequency")
     speak_button = ttk.Button(frame, text="Speak")
 
 
-
     # Grid the widgets:
-    beep_rate_label.grid(row=1, column=6)
-    beep_rate_entry.grid(row=2, column=6)
     frame_label.grid(row=0, column=1)
     beep_label.grid(row=1, column=0)
     speak_label.grid(row=1, column=1)
@@ -293,11 +287,8 @@ def get_sound_system_frame(window, mqtt_sender):
     freq_entry.grid(row=2, column=1)
     speak_entry.grid(row=2, column=2)
     time_entry.grid(row=2, column=3)
-    beep_freq_entry.grid(row=2, column=5)
-    beep_freq_label.grid(row=1, column=5)
 
     beep_button.grid(row=3, column=0)
-    beep_freq_button.grid(row=2, column=4)
     freq_button.grid(row=3, column=2)
     speak_button.grid(row=3, column=1)
 
@@ -306,7 +297,6 @@ def get_sound_system_frame(window, mqtt_sender):
     beep_button["command"] = lambda: handle_beep(beep_entry, mqtt_sender)
     freq_button["command"] = lambda: handle_freq(freq_entry, time_entry, mqtt_sender)
     speak_button["command"] = lambda: handle_speak(speak_entry, mqtt_sender)
-    beep_freq_button["command"] = lambda: handle_beep_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender)
 
 
     return frame
@@ -508,6 +498,3 @@ def handle_speak(speak_entry, mqtt_sender):
     print('Speaking')
     mqtt_sender.send_message("speak", [speak_entry.get()])
 
-def handle_beep_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender):
-    print("Beeping")
-    mqtt_sender.send_message("beepfreq", [beep_freq_entry.get(), beep_rate_entry.get()])
