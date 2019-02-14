@@ -46,7 +46,29 @@ def real_thing():
         if receiver.is_time_to_stop:
             break
 
+def tones_9(self, freq, iteration):
+    self.robot.drive_system.go(100, 100)
+    self.robot.drive_system.left_motor.reset_position()
+    start = self.robot.drive_system.left_motor.get_position()
 
+    while True:
+        if self.robot.drive_system.left_motor.get_position() - start >= 90:
+            self.robot.sound_system.tone_maker.play_tone(freq, 500)
+            freq = int(freq) + int(iteration)
+            start = self.robot.drive_system.left_motor.get_position()
+            break
+
+def cam_10(self, speed, direction):
+    if direction == "clockwise":
+        self.robot.drive_system.spin_clockwise_until_sees_object(speed, 10)
+        self.robot.drive_system.left_motor.turn_on(-50)
+        self.robot.drive_system.right_motor.turn_on(50)
+        time.sleep(.05)
+    elif direction == "counterclockwise":
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10)
+        self.robot.drive_system.left_motor.turn_on(50)
+        self.robot.drive_system.right_motor.turn_on(-50)
+        time.sleep(.05)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
