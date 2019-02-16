@@ -84,34 +84,46 @@ def get_my_own_frame(window,mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
     frame.grid()
 
-    LED_freq_label = ttk.Label(frame, text="LED Frequency:")
+    LED_freq_label = ttk.Label(frame, text="LED Frequency step:")
+    LED_freq_label.grid(row=0, column=1)
     LED_freq_entry = ttk.Entry(frame, width=8)
+    LED_freq_label = ttk.Label(frame, text="LED Frequency:")
+    LED_freq_label.grid(row=0, column=3)
+    LED_freq_entry2 = ttk.Entry(frame, width=8)
+    LED_freq_entry2.grid(row=0,column=4)
+
+
     LED_freq_button = ttk.Button(frame, text="LED")
     go_and_get_label = ttk.Label(frame, text="GO and pick:")
     go_and_get_clock_entry = ttk.Entry(frame, width=8)
     go_and_get_clock_label=ttk.Label(frame,text='clock cw=0, ccw=1')
     go_and_get_speed_entry = ttk.Entry(frame, width=8)
-    go_and_get_frequency_entry = ttk.Entry(frame, width=8)
+    go_and_get_frequency_step_entry = ttk.Entry(frame, width=8)
+    go_and_get_frequency_entry=ttk.Entry(frame,width=8)
+    go_and_get_frequency_entry.grid(row=3,column=5)
 
     go_and_get_button = ttk.Button(frame, text="GO")
 
-    LED_freq_label.grid(row=0, column=1)
+
     LED_freq_entry.grid(row=0, column=2)
     LED_freq_button.grid(row=0, column=0)
-    go_and_get_label.grid(row=0, column=1)
+    # go_and_get_label.grid(row=0, column=1)
     go_and_get_clock_label.grid(row=2,column=2)
     go_and_get_clock_entry.grid(row=3, column=2)
     go_and_get_speed_entry.grid(row=3, column=3)
-    go_and_get_frequency_entry.grid(row=3, column=4)
+    go_and_get_frequency_step_entry.grid(row=3, column=4)
     go_and_get_button.grid(row=3, column=0)
 
-    LED_freq_button["command"] = lambda: handle_LED_freq_button(LED_freq_entry, mqtt_sender)
-
+    LED_freq_button["command"] = lambda: handle_LED_freq_button(LED_freq_entry, LED_freq_entry2,mqtt_sender)
+    go_and_get_button['command']=lambda :mqtt_sender.send_message("feature10_yifei",[int(go_and_get_clock_entry.get()),int(go_and_get_speed_entry.get()),int(go_and_get_frequency_step_entry.get()),
+                                                                                int(go_and_get_frequency_entry.get())])
     return frame
 
-def handle_LED_freq_button(LED_freq_entry, mqtt_sender):
+def handle_LED_freq_button(LED_freq_entry,LED_freq2,mqtt_sender):
     print('LED shifting')
-    mqtt_sender.send_message("LEDfrequency", [LED_freq_entry.get()])
+    freq_step=int(LED_freq_entry.get())
+    freq=int(LED_freq2.get())
+    mqtt_sender.send_message("LEDfrequency", [freq_step,freq])
 
 
 
