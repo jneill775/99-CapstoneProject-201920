@@ -112,6 +112,6 @@ class Reciever(object):
                 break
 
     def LEDfrequency(self,frequency):
-        self.robot.drive_system.go_and_increase_LEDfrequency(frequency)
+        self.robot.drive_system.go_and_increase_LEDfrequency(int(frequency))
         print('Going with the higher frequency ')
 

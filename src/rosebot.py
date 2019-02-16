@@ -1056,12 +1056,6 @@ class LED(object):
         """
         self.set_color_by_name((fraction_red, fraction_green))
 
-    def shift(self,frequency):
-        while True:
-                self.set_color_by_fractions(0,1).wait(int(100/frequency))
-                self.set_color_by_fractions(1,0).wait(int(100/frequency))
-                self.set_color_by_fractions(1,1).wait(int(100/frequency))
-                self.turn_off()
 
 
 
