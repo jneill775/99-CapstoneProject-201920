@@ -109,3 +109,8 @@ class Reciever(object):
                 if time.time() - float(intitialtime) >= f:
                     break
             f = f/(ratio*m)
+
+    def LEDfrequency(self,frequency):
+        self.robot.drive_system.go_and_increase_LEDfrequency(frequency)
+        print('Going with the higher frequency ')
+
