@@ -178,10 +178,11 @@ class DriveSystem(object):
         the color sensor's color.
         """
         while True:
+            self.go(100, 100)
             if self.sensor_system.color_sensor.get_color_as_name() == color:
                 self.stop()
                 break
-            self.go(100, 100)
+
 
     def go_straight_until_color_is_not(self, color):
         """
@@ -192,10 +193,11 @@ class DriveSystem(object):
         listed in the ColorSensor class.
         """
         while True:
+            self.go(100, 100)
             if self.sensor_system.color_sensor.get_color_as_name() != color:
                 self.stop()
                 break
-            self.go(100, 100)
+
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the infrared proximity sensor.
@@ -305,12 +307,14 @@ class DriveSystem(object):
         Prints on the Console the Blob data of the Blob that the camera sees
         (if any).
         """
-        pixy = ev3.Sensor(driver_name="pixy-lego")
-        pixy.mode = "SIG1"
-        print("Value1: X", pixy.value(1))
-        print("Value2: Y", pixy.value(2))
-        print("Value3: Width", pixy.value(3))
-        print("Value4: Height", pixy.value(4))
+        print(self.sensor_system.camera.get_biggest_blob())
+
+        #pixy = ev3.Sensor(driver_name="pixy-lego")
+        #pixy.mode = "SIG1"
+        #print("Value1: X", pixy.value(1))
+        #print("Value2: Y", pixy.value(2))
+        #print("Value3: Width", pixy.value(3))
+        #print("Value4: Height", pixy.value(4))
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
@@ -318,32 +322,30 @@ class DriveSystem(object):
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
-        pixy = ev3.Sensor(driver_name="pixy-lego")
-        pixy.mode = "SIG1"
-        self.right_motor.turn_on(-speed)
-        self.left_motor.turn_on(speed)
+        speed = 100
+        self.go(speed, -1 * speed)
         while True:
-            if int(pixy.value(3)) * int(pixy.value(4)) >= area and 140 < int(pixy.value(1)) < 180:
-                self.right_motor.turn_off()
-                self.left_motor.turn_off()
+            b = self.sensor_system.camera.get_biggest_blob()
+            if b.get_area() >= int(area):
+                self.stop()
                 break
 
 
-def spin_counterclockwise_until_sees_object(self, speed, area):
+
+    def spin_counterclockwise_until_sees_object(self, speed, area):
         """
         Spins counter-clockwise at the given speed until the camera sees an object
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
-        pixy = ev3.Sensor(driver_name="pixy-lego")
-        pixy.mode = "SIG1"
-        self.right_motor.turn_on(speed)
-        self.left_motor.turn_on(-speed)
+        speed = 100
+        self.go(speed * -1, speed)
         while True:
-            if int(pixy.value(3)) * int(pixy.value(4)) >= area and 140 < int(pixy.value(1)) < 180:
-                self.right_motor.turn_off()
-                self.left_motor.turn_off()
+            b = self.sensor_system.camera.get_biggest_blob()
+            if b.get_area() >= int(area):
+                self.stop()
                 break
+
 
 ###############################################################################
 #    ArmAndClaw
@@ -444,7 +446,7 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        #self.camera = Camera()
+        self.camera = Camera("2")
         # self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =

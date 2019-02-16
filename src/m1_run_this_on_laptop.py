@@ -87,31 +87,38 @@ def get_my_frame(window, mqtt_sender):
     # Construct the widgets on the frame:
     beep_freq_label = ttk.Label(frame, text="Beep Increase Rate:")
     beep_rate_label = ttk.Label(frame, text="Beep Rate:")
-    spin_clockwise_button = ttk.Button(frame, text="Spin Clockwise")
-    spin_counterclockwise_button = ttk.Button(frame, text="Spin Counterclockwise")
-    spin_clockwise_entry = ttk.Entry(frame, width=8)
-    spin_counterclockwise_entry = ttk.Entry(frame, width=8)
+    feature_10_label = ttk.Label(frame, text="Feature 10")
+    speed_label = ttk.Label(frame, text="Spin Speed:")
+    clock_label = ttk.Label(frame, text="Counter/Clock:")
+
+    feature_10_entry = ttk.Entry(frame, width=8)
     beep_freq_entry = ttk.Entry(frame, width=8)
     beep_freq_button = ttk.Button(frame, text="Beep")
     beep_rate_entry = ttk.Entry(frame, width=8)
+    clock_entry = ttk.Entry(frame, width=8)
+
     feature_10_button = ttk.Button(frame, text="Feature 10")
 
 
     # Grid the widgets:
     beep_freq_label.grid(row=0, column=1)
+    speed_label.grid(row=3, column=0)
     beep_rate_label.grid(row=0, column=2)
     beep_freq_entry.grid(row=1, column=1)
     beep_rate_entry.grid(row=1, column=2)
     beep_freq_button.grid(row=1, column=0)
-    spin_clockwise_button.grid(row=2, column=0)
-    spin_counterclockwise_button.grid(row=3, column=0)
-    spin_clockwise_entry.grid(row=2, column=1)
-    spin_counterclockwise_entry.grid(row=3, column=1)
+    feature_10_entry.grid(row=3, column=1)
+    feature_10_label.grid(row=2, column=1)
+    clock_entry.grid(row=4, column=1)
+    feature_10_button.grid(row=6, column=0)
+    clock_label.grid(row=4, column=0)
+
+
     # Set the Button callbacks:
 
     beep_freq_button["command"] = lambda: handle_beep_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender)
-    spin_clockwise_button["command"] = lambda: handle_clockwise(spin_clockwise_entry, mqtt_sender)
-    spin_counterclockwise_button["command"] = lambda: handle_counterclockwise(spin_counterclockwise_entry, mqtt_sender)
+    feature_10_button["command"] = lambda: handle_feature_10(feature_10_entry, clock_entry, mqtt_sender)
+
 
     return frame
 
@@ -119,13 +126,9 @@ def get_my_frame(window, mqtt_sender):
 def handle_beep_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender):
     print("Beeping")
     mqtt_sender.send_message("beepfreq", [beep_freq_entry.get(), beep_rate_entry.get()])
-def handle_clockwise(clockwise_entry, mqtt_sender):
-    print('Spinning clockwise')
-    mqtt_sender.send_message("right", [clockwise_entry.get(), clockwise_entry.get()])
-def handle_counterclockwise(counter_entry, mqtt_sender):
-    print('Spinning counterclockwise')
-    mqtt_sender.send_message("left", [counter_entry.get(), counter_entry.get()])
-
+def handle_feature_10(speed, clock, mqtt_sender):
+    print("Feature 10")
+    mqtt_sender.send_message("feature10_john", [speed.get(), clock.get()])
 
 
 # -----------------------------------------------------------------------------
