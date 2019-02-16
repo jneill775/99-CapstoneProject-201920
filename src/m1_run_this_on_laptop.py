@@ -85,7 +85,7 @@ def get_my_frame(window, mqtt_sender):
     frame.grid()
 
     # Construct the widgets on the frame:
-    beep_freq_label = ttk.Label(frame, text="Beep Frequency:")
+    beep_freq_label = ttk.Label(frame, text="Beep Increase Rate:")
     beep_rate_label = ttk.Label(frame, text="Beep Rate:")
     spin_clockwise_button = ttk.Button(frame, text="Spin Clockwise")
     spin_counterclockwise_button = ttk.Button(frame, text="Spin Counterclockwise")

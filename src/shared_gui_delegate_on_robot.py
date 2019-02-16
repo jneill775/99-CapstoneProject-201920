@@ -101,14 +101,15 @@ class Reciever(object):
     def beepfreq(self, f, m):
         initialdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
         while True:
+            percentdist = (self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() / initialdist)
+            pausetime = 3 * (percentdist) / ((int(m)) + ((int(f)) * (1-percentdist)))
             self.robot.sound_system.beeper.beep().wait()
-            currentdist = float(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
-            ratio = initialdist/currentdist
-            intitialtime = time.time()
-            while True:
-                if time.time() - float(intitialtime) >= f:
-                    break
-            f = f/(ratio*m)
+            print(pausetime)
+            time.sleep(abs(pausetime))
+
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 2:
+                self.robot.drive_system.stop()
+                break
 
     def LEDfrequency(self,frequency):
         self.robot.drive_system.go_and_increase_LEDfrequency(frequency)
