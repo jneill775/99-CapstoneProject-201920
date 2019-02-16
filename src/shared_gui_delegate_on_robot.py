@@ -69,10 +69,10 @@ class Reciever(object):
         self.robot.arm_and_claw.move_arm_to_position(pos)
         print('Moving')
     def straightuntilless(self, intensity):
-        self.robot.drive_system.go_straight_until_intensity_is_less_than(float(intensity))
+        self.robot.drive_system.go_straight_until_intensity_is_less_than(intensity)
         print('Going straight until intensity is less than ', intensity)
     def straightuntilgreater(self, intensity):
-        self.robot.drive_system.go_straight_until_intensity_is_greater_than(float(intensity))
+        self.robot.drive_system.go_straight_until_intensity_is_greater_than(intensity)
         print('Going straight until intensity is greater than ', intensity)
     def straightuntilcoloris(self, color):
         self.robot.drive_system.go_straight_until_color_is(color, 100)
@@ -81,13 +81,13 @@ class Reciever(object):
         self.robot.drive_system.go_straight_until_color_is_not(color, 100)
         print('Going straight until color is not ', color)
     def straightdistless(self, distance):
-        self.robot.drive_system.go_forward_until_distance_is_less_than(float(distance), 100)
+        self.robot.drive_system.go_forward_until_distance_is_less_than(distance)
         print('Going forward until distance is less than ', distance)
     def straightdistmore(self, distance):
-        self.robot.drive_system.go_backward_until_distance_is_greater_than(float(distance), 100)
+        self.robot.drive_system.go_backward_until_distance_is_greater_than(distance)
         print('Going backward until distance is greater than ', distance)
     def distwithinrange(self, delta, inches):
-        self.robot.drive_system.go_until_distance_is_within(float(delta), float(inches), 100)
+        self.robot.drive_system.go_until_distance_is_within(delta, inches)
         print('Going forward until distance is +- ', delta, 'inches from ',inches)
     def clockwise(self, area):
         self.robot.drive_system.spin_clockwise_until_sees_object(100, area)
@@ -102,13 +102,10 @@ class Reciever(object):
         initialdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
         while True:
             self.robot.sound_system.beeper.beep().wait()
-            currentdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            currentdist = float(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
             ratio = initialdist/currentdist
             intitialtime = time.time()
             while True:
-                if time.time() - intitialtime >= f:
+                if time.time() - float(intitialtime) >= f:
                     break
             f = f/(ratio*m)
-    def LEDfrequency(self,frequency):
-        self.robot.drive_system.go_and_increase_LEDfrequency(frequency)
-        print('Going with the higher frequency ')

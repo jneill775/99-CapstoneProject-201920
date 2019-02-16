@@ -443,39 +443,39 @@ def handle_go_straight_for_inches_using_encoder(time_entry, mqtt_sender):
     mqtt_sender.send_message("straightusingencoder", [time_entry.get()])
 
 def handle_straight_until_less_than(less_than_entry, mqtt_sender):
-    print('Going straight until intensity is less than ', less_than_entry)
+    print('Going straight until intensity is less than ')
     mqtt_sender.send_message("straightuntilless", [less_than_entry.get()])
 
 def handle_straight_until_greater_than(greater_than_entry, mqtt_sender):
-    print('Going straight until intensity is greater than ', greater_than_entry)
+    print('Going straight until intensity is greater than ')
     mqtt_sender.send_message("straightuntilgreater", [greater_than_entry.get()])
 
 def handle_straight_until_color_is(straight_until_color_is_entry, mqtt_sender):
-    print('Going straight until color is ', straight_until_color_is_entry)
+    print('Going straight until color is ')
     mqtt_sender.send_message("straightuntilcoloris", [straight_until_color_is_entry.get()])
 
 def handle_straight_until_color_is_not(straight_until_color_is_not_entry, mqtt_sender):
-    print('Going straight until color is not ', straight_until_color_is_not_entry)
+    print('Going straight until color is not ')
     mqtt_sender.send_message("straightuntilcolorisnot", [straight_until_color_is_not_entry.get()])
 
 def handle_forward_until_less(forward_until_less_than_entry, mqtt_sender):
-    print('Going forward until distance is less than ', forward_until_less_than_entry)
+    print('Going forward until distance is less than ')
     mqtt_sender.send_message("straightdistless", [forward_until_less_than_entry.get()])
 
 def handle_backward_until_greater(backward_until_greater_than_entry, mqtt_sender):
-    print('Going backward until distance is greater than ', backward_until_greater_than_entry)
+    print('Going backward until distance is greater than ')
     mqtt_sender.send_message("straightdistmore", [backward_until_greater_than_entry.get()])
 
 def handle_go_until_within(distance_within_entry_delta, distance_within_entry_inches, mqtt_sender):
-    print('Going forward until distance is +- ', distance_within_entry_delta, 'inches from ', distance_within_entry_inches)
+    print('Going forward until distance is within entry')
     mqtt_sender.send_message("distwithinrange", [distance_within_entry_delta.get(), distance_within_entry_inches.get()])
 
 def handle_go_clockwise(clockwise_area_entry, mqtt_sender):
-    print('Going clockwise for area ', clockwise_area_entry)
+    print('Going clockwise for area ')
     mqtt_sender.send_message("clockwise", [clockwise_area_entry.get()])
 
 def handle_go_counterclockwise(counterclockwise_area_entry, mqtt_sender):
-    print('Going counterclockwise for area ', counterclockwise_area_entry)
+    print('Going counterclockwise for area ')
     mqtt_sender.send_message("counterclockwise", [counterclockwise_area_entry.get()])
 
 def handle_camera_display(mqtt_sender):
