@@ -64,7 +64,7 @@ def get_shared_frames(main_frame, mqtt_sender):
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     drive_system_frame = shared_gui.get_drive_system_frame(main_frame, mqtt_sender)
     sound_system_frame = shared_gui.get_sound_system_frame(main_frame, mqtt_sender)
-    tones_frame = get_my_tones(main_frame, mqtt_sender)
+    tones_frame = my_tones(main_frame, mqtt_sender)
 
     return teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, tones_frame
 
@@ -87,20 +87,38 @@ def my_tones(window, mqtt_sender):
     freq_entry = ttk.Entry(frame, width=8)
     freq_button = ttk.Button(frame, text="Frequency Beep")
     freq_rate_entry = ttk.Entry(frame, width=8)
+    spin_clockwise_button = ttk.Button(frame, text="Spin Clockwise")
+    spin_counterclockwise_button = ttk.Button(frame, text="Spin Counterclockwise")
+    spin_clockwise_entry = ttk.Entry(frame, width=8)
+    spin_counterclockwise_entry = ttk.Entry(frame, width=8)
 
-    freq_label.grid(row=0, column=0)
-    freq_rate_label.grid(row=0, column=1)
-    freq_entry.grid(row=1, column=0)
-    freq_button.grid(row=1, column=1)
-    freq_rate_entry.grid(row=2, column=0)
+    freq_label.grid(row=0, column=1)
+    freq_rate_label.grid(row=0, column=2)
+    freq_entry.grid(row=1, column=1)
+    freq_button.grid(row=1, column=0)
+    freq_rate_entry.grid(row=1, column=2)
+    spin_clockwise_button.grid(row=2, column=0)
+    spin_counterclockwise_button.grid(row=3, column=0)
+    spin_clockwise_entry.grid(row=2, column=1)
+    spin_counterclockwise_entry.grid(row=3, column=1)
 
     freq_button["command"] = lambda: handle_freq_button(freq_entry, freq_rate_entry, mqtt_sender)
+    spin_clockwise_button["command"] = lambda: handle_clockwise(spin_clockwise_entry, mqtt_sender)
+    spin_counterclockwise_button["command"] = lambda: handle_counterclockwise(spin_counterclockwise_entry, mqtt_sender)
 
     return frame
 
 def handle_freq_button(freq_entry, freq_rate_entry, mqtt_sender):
     print('Frequency beeping')
     mqtt_sender.send_message('frequency', [freq_entry.get(), freq_rate_entry.get()])
+
+def handle_clockwise(clockwise_entry, mqtt_sender):
+    print('Spinning clockwise')
+    mqtt_sender.send_message("right", [clockwise_entry.get(), clockwise_entry.get()])
+
+def handle_counterclockwise(counter_entry, mqtt_sender):
+    print('Spinning counterclockwise')
+    mqtt_sender.send_message("left", [counter_entry.get(), counter_entry.get()])
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
