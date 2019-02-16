@@ -50,50 +50,50 @@ def real_thing():
         if receiver.is_time_to_stop:
             break
 
-def tones_9(self, initial_rate, rate_of_increase):
+def tones_9(initial_rate, rate_of_increase, robot):
 
-    self.robot.drive_system.go(100, 100)
-    self.robot.drive_system.left_motor.reset_position()
-    start_distance = self.robot.drive_system.ir_proximity_sensor.get_distance_in_inches()
+    robot.drive_system.go(100, 100)
+    robot.drive_system.left_motor.reset_position()
+    start_distance = robot.drive_system.ir_proximity_sensor.get_distance_in_inches()
     start_time = time.time()
     rate = initial_rate
-    delta = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()/ ((self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() - 0.01) / rate_of_increase)
+    delta = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()/ ((robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() - 0.01) / rate_of_increase)
 
     while True:
-        if self.robot.drive_system.left_motor.get_position() - start_distance >= delta:
+        if robot.drive_system.left_motor.get_position() - start_distance >= delta:
             if time.time() - start_time >= rate:
-                start_distance = self.robot.left_motor.get_position()
-                start_time, rate = tones_9_cycle_faster(self, rate, rate_of_increase)
-        if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches <= 1:
-            self.robot.drive_system.stop()
-            self.robot.arm_and_claw.raise_arm()
+                start_distance = robot.left_motor.get_position()
+                start_time, rate = tones_9_cycle_faster(rate, rate_of_increase, robot)
+        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches <= 1:
+            robot.drive_system.stop()
+            robot.arm_and_claw.raise_arm()
             break
 
-def tones_9_cycle_faster(self, rate, rate_of_increase):
+def tones_9_cycle_faster(rate, rate_of_increase, robot):
 
-    self.robot.led_system.left_led.turn_on()
-    self.robot.led_system.left_led.turn_off()
-    self.robot.led_system.right_led.turn_on()
-    self.robot.led_system.right_led.turn_off()
-    self.robot.led_system.left_led.turn_on()
-    self.robot.led_system.right_led.turn_on()
-    self.robot.led_system.left_led.turn_off()
-    self.robot.led_system.right_led.turn_off()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_on()
+    robot.led_system.right_led.turn_off()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
     return time.time(), rate - rate_of_increase
 
-def cam_10(self, speed, direction):
+def cam_10(speed, direction, robot):
 
     if direction == "clockwise":
-        self.robot.drive_system.spin_clockwise_until_sees_object(speed, 10)
-        self.robot.drive_system.left_motor.turn_on(-50)
-        self.robot.drive_system.right_motor.turn_on(50)
+        robot.drive_system.spin_clockwise_until_sees_object(speed, 10)
+        robot.drive_system.left_motor.turn_on(-50)
+        robot.drive_system.right_motor.turn_on(50)
         time.sleep(.07)
     elif direction == "counterclockwise":
-        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10)
-        self.robot.drive_system.left_motor.turn_on(50)
-        self.robot.drive_system.right_motor.turn_on(-50)
+        robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10)
+        robot.drive_system.left_motor.turn_on(50)
+        robot.drive_system.right_motor.turn_on(-50)
         time.sleep(.02)
-    tones_9(self, .05, .005)
+    tones_9(.05, .005, robot)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
