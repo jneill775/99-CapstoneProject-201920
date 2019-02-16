@@ -39,6 +39,7 @@ class RoseBot(object):
         self.display_system = DisplaySystem()
 
 
+
 ###############################################################################
 #    DriveSystem
 ###############################################################################
@@ -287,6 +288,12 @@ class DriveSystem(object):
         Prints on the Console the Blob data of the Blob that the camera sees
         (if any).
         """
+        pixy = ev3.Sensor(driver_name="pixy-lego")
+        pixy.mode = "SIG1"
+        print("Value1: X", pixy.value(1))
+        print("Value2: Y", pixy.value(2))
+        print("Value3: Width", pixy.value(3))
+        print("Value4: Height", pixy.value(4))
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
@@ -294,14 +301,32 @@ class DriveSystem(object):
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
+        pixy = ev3.Sensor(driver_name="pixy-lego")
+        pixy.mode = "SIG1"
+        self.right_motor.turn_on(-speed)
+        self.left_motor.turn_on(speed)
+        while True:
+            if int(pixy.value(3)) * int(pixy.value(4)) >= area and 140 < int(pixy.value(1)) < 180:
+                self.right_motor.turn_off()
+                self.left_motor.turn_off()
+                break
 
 
-    def spin_counterclockwise_until_sees_object(self, speed, area):
+def spin_counterclockwise_until_sees_object(self, speed, area):
         """
         Spins counter-clockwise at the given speed until the camera sees an object
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
+        pixy = ev3.Sensor(driver_name="pixy-lego")
+        pixy.mode = "SIG1"
+        self.right_motor.turn_on(speed)
+        self.left_motor.turn_on(-speed)
+        while True:
+            if int(pixy.value(3)) * int(pixy.value(4)) >= area and 140 < int(pixy.value(1)) < 180:
+                self.right_motor.turn_off()
+                self.left_motor.turn_off()
+                break
 
 ###############################################################################
 #    ArmAndClaw

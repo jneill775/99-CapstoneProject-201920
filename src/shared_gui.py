@@ -497,4 +497,3 @@ def handle_freq(freq_entry, time_entry, mqtt_sender):
 def handle_speak(speak_entry, mqtt_sender):
     print('Speaking')
     mqtt_sender.send_message("speak", [speak_entry.get()])
-
