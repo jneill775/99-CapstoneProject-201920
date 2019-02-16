@@ -86,7 +86,7 @@ def get_my_own_frame(window,mqtt_sender):
 
     LED_freq_label = ttk.Label(frame, text="LED Frequency:")
     LED_freq_entry = ttk.Entry(frame, width=8)
-    LED_freq_button = ttk.Button(frame, text="Beep")
+    LED_freq_button = ttk.Button(frame, text="LED")
 
 
     LED_freq_label.grid(row=0, column=1)

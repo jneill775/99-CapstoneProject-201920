@@ -61,7 +61,7 @@ class DriveSystem(object):
     #          (i.e., left motor goes at speed -S, right motor at speed S).
     # -------------------------------------------------------------------------
 
-    def __init__(self, sensor_system):
+    def __init__(self, sensor_system,led_system=None):
         """
         Stores the given SensorSystem object.
         Constructs two Motors (for the left and right wheels).
@@ -70,6 +70,7 @@ class DriveSystem(object):
         self.sensor_system = sensor_system
         self.left_motor = Motor('B')
         self.right_motor = Motor('C')
+        self.led_system = led_system
 
         self.wheel_circumference = 1.3 * math.pi
 
@@ -248,19 +249,31 @@ class DriveSystem(object):
     # Methods for driving that use the infrared beacon sensor.
     # -------------------------------------------------------------------------
 
-    def go_and_increase_LEDfrequency(self,frequency):
-        robot = RoseBot()
-        init_dis = 1000
-        int_frequency = 10
+
+    def go_and_increase_LEDfrequency(self, frequency_step):
+        init_distance = 99999
+        frequency = 10
+
         while True:
             self.go(100, 100)
             distance = self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-            if distance < init_dis:
+            if distance < init_distance:
                 print(frequency)
-                frequency = frequency + int_frequency
-                init_dis = distance
-            robot.led_system.LED.shift(frequency)
-            if distance < 3:
+                frequency = frequency + frequency_step
+                init_distance = distance
+            self.led_system.left_led.turn_on()
+            time.sleep(10 / frequency)
+            self.led_system.left_led.turn_off()
+            self.led_system.right_led.turn_on()
+            time.sleep(10 / frequency)
+            self.led_system.right_led.turn_off()
+            self.led_system.left_led.turn_on()
+            self.led_system.right_led.turn_on()
+            time.sleep(10 / frequency)
+            self.led_system.left_led.turn_off()
+            self.led_system.right_led.turn_off()
+            time.sleep(10 / frequency)
+            if distance < 20:
                 self.stop()
                 break
 
