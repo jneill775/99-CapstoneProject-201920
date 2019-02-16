@@ -87,12 +87,23 @@ def get_my_own_frame(window,mqtt_sender):
     LED_freq_label = ttk.Label(frame, text="LED Frequency:")
     LED_freq_entry = ttk.Entry(frame, width=8)
     LED_freq_button = ttk.Button(frame, text="LED")
+    go_and_get_label = ttk.Label(frame, text="GO and pick:")
+    go_and_get_clock_entry = ttk.Entry(frame, width=8)
+    go_and_get_clock_label=ttk.Label(frame,text='clock cw=0, ccw=1')
+    go_and_get_speed_entry = ttk.Entry(frame, width=8)
+    go_and_get_frequency_entry = ttk.Entry(frame, width=8)
 
+    go_and_get_button = ttk.Button(frame, text="GO")
 
     LED_freq_label.grid(row=0, column=1)
     LED_freq_entry.grid(row=0, column=2)
-    LED_freq_button.grid(row=1, column=0)
-
+    LED_freq_button.grid(row=0, column=0)
+    go_and_get_label.grid(row=0, column=1)
+    go_and_get_clock_label.grid(row=2,column=2)
+    go_and_get_clock_entry.grid(row=3, column=2)
+    go_and_get_speed_entry.grid(row=3, column=3)
+    go_and_get_frequency_entry.grid(row=3, column=4)
+    go_and_get_button.grid(row=3, column=0)
 
     LED_freq_button["command"] = lambda: handle_LED_freq_button(LED_freq_entry, mqtt_sender)
 
