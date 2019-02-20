@@ -114,7 +114,7 @@ def get_my_own_frame(window,mqtt_sender):
     go_and_get_frequency_step_entry.grid(row=3, column=4)
     go_and_get_button.grid(row=3, column=0)
 
-    LED_freq_button["command"] = lambda: handle_LED_freq_button(LED_freq_entry, LED_freq_entry2,mqtt_sender)
+    LED_freq_button["command"]   = lambda: handle_LED_freq_button(LED_freq_entry, LED_freq_entry2,mqtt_sender)
     go_and_get_button['command']=lambda :mqtt_sender.send_message("feature10_yifei",[int(go_and_get_clock_entry.get()),int(go_and_get_speed_entry.get()),int(go_and_get_frequency_step_entry.get()),
                                                                                 int(go_and_get_frequency_entry.get())])
     return frame

@@ -5,10 +5,10 @@
   Winter term, 2018-2019.
 """
 
-import rosebot
+import m3_rosebot
 import mqtt_remote_method_calls as com
 import time
-import shared_gui_delegate_on_robot as rec
+import m3_personal_gui_delegate_ as rec
 
 def main():
     """
@@ -19,31 +19,17 @@ def main():
     real_thing()
 
 def real_thing():
-    robot=rosebot.RoseBot()
-    delegate=rec.Reciever(robot)
+    robot=m3_rosebot.RoseBot()
+    delegate=rec.ResponderToGUIMessages(robot)
     mqtt_receiver=com.MqttClient(delegate)
     mqtt_receiver.connect_to_pc()
+    delegate.mqtt_sender=mqtt_receiver
 
     while True:
         time.sleep(0.01)
-        if delegate.is_time_to_stop:
+        if delegate.stop_program:
             break
 
-def beeper(time):
-    robot = rosebot.RoseBot()
-    robot.sound_system.beeper.beep(time)
-
-def tone_make(frequency, duration):
-    robot = rosebot.RoseBot()
-    robot.sound_system.tone_maker.play_tone(frequency,duration).wait()
-
-def speak(str):
-    robot = rosebot.RoseBot()
-    robot.sound_system.speech_maker.speak(str)
-
-def go_and_increase_LEDfrequency(speed,frequency):
-    robot = rosebot.RoseBot()
-    robot.drive_system.go_and_increase_LEDfrequency(speed,frequency)
 
 
 # -----------------------------------------------------------------------------
