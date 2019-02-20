@@ -14,7 +14,7 @@ def search():
     robot.drive_system.go(50, 50)
     while True:
         d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        if d < 3:
+        if d < 2:
             robot.drive_system.stop()
             robot.arm_and_claw.raise_arm()
             break
@@ -29,7 +29,7 @@ def put_away():
     robot.drive_system.go(50,50)
     while True:
         d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        if d < 2:
+        if d < 3:
             robot.drive_system.stop()
             robot.arm_and_claw.lower_arm()
             robot.led_system.left_led.turn_off()
