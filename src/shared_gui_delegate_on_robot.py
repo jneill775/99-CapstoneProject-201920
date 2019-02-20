@@ -125,6 +125,11 @@ class Reciever(object):
             self.beepfreq(50, 50)
         else:
             pass
+    def sprint3(self, dist, sweeps):
+        print("Beginning sweep")
+        self.robot.drive_system.sweep_plot(int(dist), int(sweeps))
+        self.robot.arm_and_claw.raise_arm()
+
 
 
 

@@ -37,7 +37,7 @@ class RoseBot(object):
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
-
+        self.tracker = 0
 
 
 ###############################################################################
@@ -74,6 +74,47 @@ class DriveSystem(object):
 
         self.wheel_circumference = 1.3 * math.pi
 
+    def sweep_plot(self, dist, sweeps):
+        robot = RoseBot()
+        robot.tracker = 0
+        dist = int(dist)
+        sweeps = int(sweeps)
+
+        for k in range(sweeps):
+            if k % 2 != 1:
+                self.go_straight_for_inches_using_time(dist, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                self.spin_clockwise_for_time(0.3, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                self.go_straight_for_inches_using_time(9, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                self.spin_clockwise_for_time(0.3, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                robot.tracker += 1
+                print(robot.tracker)
+            if k % 2 == 1:
+                self.go_straight_for_inches_using_time(dist, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                self.spin_clockwise_for_time(0.3, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                self.go_straight_for_inches_using_time(9, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                self.spin_clockwise_for_time(0.3, 100)
+                if robot.sensor_system.check_item() is True:
+                    break
+                robot.tracker += 1
+                print(robot.tracker)
+            if robot.tracker == sweeps:
+                robot.sound_system.speech_maker.speak("Nothing found, returning")
+
+
     # -------------------------------------------------------------------------
     # Methods for driving with no external sensor (just the built-in encoders).
     # -------------------------------------------------------------------------
@@ -95,6 +136,34 @@ class DriveSystem(object):
         """
         start = time.time()
         self.go(speed, speed)
+        # Note: using   time.sleep   to control the time to run is better.
+        # We do it with a WHILE loop here for pedagogical reasons.
+        while True:
+            if time.time() - start >= float(seconds):
+                self.stop()
+                break
+
+    def spin_clockwise_for_time(self, seconds, speed):
+        """
+        Makes the robot go straight (forward if speed > 0, else backward)
+        at the given speed for the given number of seconds.
+        """
+        start = time.time()
+        self.go(speed, -1 * speed)
+        # Note: using   time.sleep   to control the time to run is better.
+        # We do it with a WHILE loop here for pedagogical reasons.
+        while True:
+            if time.time() - start >= float(seconds):
+                self.stop()
+                break
+
+    def spin_counterclockwise_for_time(self, seconds, speed):
+        """
+        Makes the robot go straight (forward if speed > 0, else backward)
+        at the given speed for the given number of seconds.
+        """
+        start = time.time()
+        self.go(-1 * speed, speed)
         # Note: using   time.sleep   to control the time to run is better.
         # We do it with a WHILE loop here for pedagogical reasons.
         while True:
@@ -132,7 +201,6 @@ class DriveSystem(object):
             if abs(self.left_motor.get_position()) >= desired_degrees:
                 self.stop()
                 break
-
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
@@ -446,10 +514,17 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        self.camera = Camera("2")
-        # self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        #self.camera = Camera("2")
+        #self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =
+
+    def check_item(self):
+
+        if self.ir_proximity_sensor.get_distance_in_inches() <= 1:
+            return True
+        else:
+            return False
 
 
 
