@@ -10,7 +10,7 @@ def search():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_counterclockwise_until_sees_object((25, 100), 100)
+    robot.drive_system.spin_counterclockwise_until_sees_object()
     robot.drive_system.go(50, 50)
     while True:
         d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
@@ -25,7 +25,7 @@ def put_away():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_clockwise_until_sees_object(100, 25)
+    robot.drive_system.spin_clockwise_until_sees_object()
     robot.drive_system.go(50,50)
     while True:
         d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
@@ -39,7 +39,7 @@ def put_away():
 def celebration():
 
     robot = rosebot.RoseBot()
-    robot.sound_system.speech_maker.speak('Cleaned Up')
+    robot.sound_system.speech_maker.speak('Cleaned Up for Macy')
     robot.arm_and_claw.move_arm_to_position(2000)
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
