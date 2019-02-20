@@ -101,39 +101,47 @@ def cam_10(speed, direction, robot):
 
 def search():
     robot = rosebot.RoseBot()
-    robot.led_system.left_led()
-    robot.led_system.right_led()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
     robot.drive_system.spin_counterclockwise_until_sees_object()
     robot.drive_system.go()
     robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
     robot.drive_system.stop()
     robot.arm_and_claw.raise_arm()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
 
 def put_away():
     robot = rosebot.RoseBot()
-    robot.led_system.left_led()
-    robot.led_system.right_led()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
     robot.drive_system.spin_clockwise_until_sees_object()
     robot.drive_system.go()
     robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
     robot.drive_system.stop()
     robot.arm_and_claw.lower_arm()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
 
 def celebration():
     robot = rosebot.RoseBot()
     robot.sound_system.speech_maker()
     robot.arm_and_claw.move_arm_to_position()
-    robot.led_system.left_led()
-    robot.led_system.right_led()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
 
 def sleep():
     robot = rosebot.RoseBot()
-    robot.led_system.right_led()
-    robot.led_system.left_led()
+    robot.led_system.right_led.turn_on()
+    robot.led_system.left_led.turn_on()
     robot.sound_system.speech_maker()
     robot.drive_system.go_straight_for_inches_using_encoder()
     robot.drive_system.stop()
     robot.arm_and_claw.raise_arm()
+    robot.led_system.right_led.turn_off()
+    robot.led_system.left_led.turn_off()
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
