@@ -9,6 +9,7 @@ import rosebot
 import mqtt_remote_method_calls as com
 import time
 import shared_gui_delegate_on_robot as rec
+import m2_cleaner as m2
 
 def main():
     """
@@ -103,8 +104,7 @@ def search():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_counterclockwise_until_sees_object()
-    robot.drive_system.go()
+    robot.drive_system.go(50, 50)
     robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
     robot.drive_system.stop()
     robot.arm_and_claw.raise_arm()
@@ -115,9 +115,9 @@ def put_away():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_clockwise_until_sees_object()
-    robot.drive_system.go()
-    robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+    robot.drive_system.spin_clockwise_for_time(5,50)
+    robot.drive_system.go(50,50)
+    robot.drive_system.go_straight_for_inches_using_encoder(25)
     robot.drive_system.stop()
     robot.arm_and_claw.lower_arm()
     robot.led_system.left_led.turn_off()
@@ -137,7 +137,7 @@ def sleep():
     robot.led_system.right_led.turn_on()
     robot.led_system.left_led.turn_on()
     robot.sound_system.speech_maker()
-    robot.drive_system.go_straight_for_inches_using_encoder()
+    robot.drive_system.go_straight_for_inches_using_encoder(25)
     robot.drive_system.stop()
     robot.arm_and_claw.raise_arm()
     robot.led_system.right_led.turn_off()

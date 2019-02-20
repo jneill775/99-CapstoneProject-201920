@@ -126,7 +126,7 @@ def cleaner_frame(window, mqtt_sender):
 
     frame = tkinter.Frame(window, borderwidth=100, bg='red')
     frame.grid()
-    frame_label = ttk.Label(frame, text='Cleaner Bot', font='Arial 18 bold', background='gray')
+    frame_label = ttk.Label(frame, text='Cleaner Bot', font='Arial 20 bold', background='gray')
     search_button = ttk.Button(frame, text='Search for toys!')
     pick_up_button = ttk.Button(frame, text='Put away the toys')
     celebrate_button = ttk.Button(frame, text='Celebrate the cleaning')

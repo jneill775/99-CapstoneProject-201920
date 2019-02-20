@@ -10,7 +10,6 @@ def search():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_counterclockwise_until_sees_object()
     robot.drive_system.go(50, 50)
     while True:
         d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
@@ -25,16 +24,14 @@ def put_away():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_clockwise_until_sees_object()
+    robot.drive_system.spin_clockwise_for_time(5)
     robot.drive_system.go(50,50)
-    while True:
-        d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        if d < 3:
-            robot.drive_system.stop()
-            robot.arm_and_claw.lower_arm()
-            robot.led_system.left_led.turn_off()
-            robot.led_system.right_led.turn_off()
-            break
+    robot.drive_system.go_straight_for_inches_using_encoder(25)
+    robot.drive_system.stop()
+    robot.arm_and_claw.lower_arm()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
+
 
 def celebration():
 
@@ -72,7 +69,7 @@ def sleep():
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
     robot.sound_system.speech_maker.speak('Sleepy Time')
-    robot.drive_system.go_straight_for_inches_using_encoder(25,(50,50))
+    robot.drive_system.go_straight_for_inches_using_encoder(25)
     robot.drive_system.stop()
     robot.arm_and_claw.raise_arm()
     robot.led_system.left_led.turn_off()
