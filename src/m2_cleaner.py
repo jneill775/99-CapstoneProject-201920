@@ -10,7 +10,7 @@ def search():
     robot = rosebot.RoseBot()
     robot.led_system.left_led.turn_on()
     robot.led_system.right_led.turn_on()
-    robot.drive_system.spin_counterclockwise_until_sees_object(25, 100)
+    robot.drive_system.spin_counterclockwise_until_sees_object((25, 100), 100)
     robot.drive_system.go(50, 50)
     while True:
         d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
