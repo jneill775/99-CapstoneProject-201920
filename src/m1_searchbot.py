@@ -11,7 +11,7 @@ def sprint3(dist, sweeps):
 def check_item():
     robot = rosebot.RoseBot()
 
-    if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 5:
+    if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 7:
         return True
     else:
         return False

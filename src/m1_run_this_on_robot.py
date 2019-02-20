@@ -15,11 +15,9 @@ def main():
     mqtt_sender = com.MqttClient()
     mqtt_sender.connect_to_pc()
 
-    real_thing()
+    #feature10_john()
+    #beepfreq()
 
-def return_value(return_val, mqtt_client=com.MqttClient()):
-    mqtt_client.connect_to_pc()
-    mqtt_client.send_message('update_interface', [return_val])
 
 def real_thing():
     robot = rosebot.RoseBot()
@@ -32,19 +30,48 @@ def real_thing():
         if reciever.is_time_to_stop:
             break
 
+def feature10_john(speed, clock):
+    robot = rosebot.RoseBot()
+    if int(clock) == 0:
+        robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
+        beepfreq(50, 50)
+    elif int(clock) == 1:
+        robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
+        beepfreq(50, 50)
+    else:
+        pass
+
+def beepfreq(f, m):
+    robot = rosebot.RoseBot()
+    initialdist = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+    robot.drive_system.go(100, 100)
+    while True:
+        percentdist = (robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() / initialdist)
+        pausetime = 3 * (percentdist) / ((int(m)) + ((int(f)) * (1-percentdist)))
+        robot.sound_system.beeper.beep().wait()
+        print(pausetime)
+        time.sleep(abs(pausetime))
+
+        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 3:
+            robot.drive_system.stop()
+            robot.arm_and_claw.raise_arm()
+            break
+
 def sprint3(dist, sweeps):
     robot = rosebot.RoseBot()
-    robot.sound_system.beeper.beep()
-    sweep_plot(dist, sweeps)
+    print("Beginning sweep")
+    robot.drive_system.sweep_plot(int(dist), int(sweeps))
+    robot.arm_and_claw.raise_arm()
 
 def check_item():
     robot = rosebot.RoseBot()
-    if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 1:
+
+    if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 7:
         return True
     else:
         return False
 
-def sweep_plot(dist, sweeps):
+def sweep_plot(self, dist, sweeps):
     robot = rosebot.RoseBot()
     robot.tracker = 0
     dist = int(dist)
@@ -52,40 +79,37 @@ def sweep_plot(dist, sweeps):
 
     for k in range(sweeps):
         if k % 2 != 1:
-            robot.drive_system.go_straight_for_inches_using_time(dist, 100)
-            if check_item() is True:
+            self.go_straight_for_inches_using_time(dist, 100)
+            if robot.sensor_system.check_item() is True:
                 break
-            robot.drive_system.go()
-            robot.drive_system.spin_clockwise_for_time(2, 100)
-            if check_item() is True:
+            self.spin_clockwise_for_time(0.55, 100)
+            if robot.sensor_system.check_item() is True:
                 break
-            robot.drive_system.go_straight_for_inches_using_time(9, 100)
-            if check_item() is True:
+            self.go_straight_for_inches_using_time(9, 100)
+            if robot.sensor_system.check_item() is True:
                 break
-            robot.drive_system.spin_clockwise_for_time(2, 100)
-            if check_item() is True:
+            self.spin_clockwise_for_time(0.55, 100)
+            if robot.sensor_system.check_item() is True:
                 break
             robot.tracker += 1
             print(robot.tracker)
         if k % 2 == 1:
-            robot.drive_system.go_straight_for_inches_using_time(dist, 100)
-            if check_item() is True:
+            self.go_straight_for_inches_using_time(dist, 100)
+            if robot.sensor_system.check_item() is True:
                 break
-            robot.drive_system.spin_clockwise_for_time(2, 100)
-            if check_item() is True:
+            self.spin_counterclockwise_for_time(0.55, 100)
+            if robot.sensor_system.check_item() is True:
                 break
-            robot.drive_system.go_straight_for_inches_using_time(9, 100)
-            if check_item() is True:
+            self.go_straight_for_inches_using_time(9, 100)
+            if robot.sensor_system.check_item() is True:
                 break
-            robot.drive_system.spin_clockwise_for_time(2, 100)
-            if check_item() is True:
+            self.spin_counterclockwise_for_time(0.55, 100)
+            if robot.sensor_system.check_item() is True:
                 break
             robot.tracker += 1
             print(robot.tracker)
         if robot.tracker == sweeps:
-            return_value(-1)
-        return
-
+            robot.sound_system.speech_maker.speak("Nothing found, returning")
 
 
 # -----------------------------------------------------------------------------

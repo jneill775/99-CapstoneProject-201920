@@ -98,37 +98,22 @@ class Reciever(object):
     def display(self):
         self.robot.drive_system.display_camera_data()
         print('Displaying Camera Feed')
-    def beepfreq(self, f, m):
-        initialdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        self.robot.drive_system.go(100, 100)
-        while True:
-            percentdist = (self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() / initialdist)
-            pausetime = 3 * (percentdist) / ((int(m)) + ((int(f)) * (1-percentdist)))
-            self.robot.sound_system.beeper.beep().wait()
-            print(pausetime)
-            time.sleep(abs(pausetime))
-
-            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 3:
-                self.robot.drive_system.stop()
-                self.robot.arm_and_claw.raise_arm()
-                break
 
     def LEDfrequency(self,frequency):
         self.robot.drive_system.go_and_increase_LEDfrequency(int(frequency))
         print('Going with the higher frequency ')
-    def feature10_john(self, speed, clock):
-        if int(clock) == 0:
-            self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
-            self.beepfreq(50, 50)
-        elif int(clock) == 1:
-            self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
-            self.beepfreq(50, 50)
-        else:
-            pass
-    def sprint3(self, dist, sweeps):
-        print("Beginning sweep")
-        self.robot.drive_system.sweep_plot(int(dist), int(sweeps))
-        self.robot.arm_and_claw.raise_arm()
+    #def feature10_john(self, speed, clock):
+        #if int(clock) == 0:
+            #self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
+            #elf.beepfreq(50, 50)
+        #elif int(clock) == 1:
+            #self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
+            #self.beepfreq(50, 50)
+        #else:
+            #pass
+    #def sprint3(self, dist, sweeps):
+        #print("Beginning sweep")
+        #m1_searchbot.sprint3(int(dist), int(sweeps))
 
 
 
