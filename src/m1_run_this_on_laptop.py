@@ -40,7 +40,7 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame = get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame, sprint3 = get_shared_frames(main_frame, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
@@ -50,7 +50,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame)
+    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame, sprint3)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -64,19 +64,21 @@ def get_shared_frames(main_frame, mqtt_sender):
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     drive_system_frame = shared_gui.get_drive_system_frame(main_frame, mqtt_sender)
     sound_system_frame = shared_gui.get_sound_system_frame(main_frame, mqtt_sender)
-    my_beep_frame = get_my_frame(main_frame, mqtt_sender)
+    my_frame = get_my_frame(main_frame, mqtt_sender)
+    sprint3 = get_sprint3_frame(main_frame, mqtt_sender)
 
-    return teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_beep_frame
+
+    return teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame, sprint3
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, my_frame, sprint3):
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     drive_system_frame.grid(row=2, column=0)
     sound_system_frame.grid(row=3, column=0)
     control_frame.grid(row=4, column=0)
     my_frame.grid(row=0, column=1)
-
+    sprint3.grid(row=1, column=1)
 
 def get_my_frame(window, mqtt_sender):
 
@@ -116,20 +118,50 @@ def get_my_frame(window, mqtt_sender):
 
     # Set the Button callbacks:
 
-    beep_freq_button["command"] = lambda: handle_beep_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender)
+    beep_freq_button["command"] = lambda: handle_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender)
     feature_10_button["command"] = lambda: handle_feature_10(feature_10_entry, clock_entry, mqtt_sender)
 
 
     return frame
 
 
-def handle_beep_freq_button(beep_freq_entry, beep_rate_entry, mqtt_sender):
-    print("Beeping")
-    mqtt_sender.send_message("beepfreq", [beep_freq_entry.get(), beep_rate_entry.get()])
+def get_sprint3_frame(window, mqtt_sender):
+
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    title = ttk.Label(frame, text="Sprint 3")
+    dist_label = ttk.Label(frame, text="Distance: ")
+    sweeps_label = ttk.Label(frame, text="# of sweeps: ")
+    dist_entry = ttk.Entry(frame, width=8)
+    sweeps_entry = ttk.Entry(frame, width=8)
+    go_button = ttk.Button(frame, text="Go!")
+
+
+    title.grid(row=0, column=1)
+    dist_label.grid(row=1, column=0)
+    sweeps_label.grid(row=2, column=0)
+    dist_entry.grid(row=1, column=1)
+    sweeps_entry.grid(row=2, column=1)
+    go_button.grid(row=3, column=1)
+
+
+    go_button["command"] = lambda: sprint3(dist_entry, sweeps_entry, mqtt_sender)
+
+    return frame
+
+
+def handle_freq_button(freq_entry, freq_rate_entry, mqtt_sender):
+    print('Frequency beeping')
+    mqtt_sender.send_message('frequency', [freq_entry.get(), freq_rate_entry.get()])
+
 def handle_feature_10(speed, clock, mqtt_sender):
     print("Feature 10")
     mqtt_sender.send_message("feature10_john", [speed.get(), clock.get()])
-
+def sprint3(dist_entry, sweeps_entry, mqtt_sender):
+    mqtt_sender.send_message("sprint3", [dist_entry.get(), sweeps_entry.get()])
+    print("Sprint 3")
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

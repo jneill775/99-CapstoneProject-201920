@@ -19,9 +19,13 @@ def main():
     # run_test_arm()
     # calibrate_arm()s
     # real_thing()
-    tones_9()
-    tones_9_cycle_faster()
+    # tones_9()
+    # tones_9_cycle_faster()
     # cam_10()
+    search()
+    put_away()
+    celebration()
+    sleep()
 
 def run_test_arm():
     robot = rosebot.RoseBot()
@@ -94,6 +98,50 @@ def cam_10(speed, direction, robot):
         robot.drive_system.right_motor.turn_on(-50)
         time.sleep(.02)
     tones_9(.05, .005, robot)
+
+def search():
+    robot = rosebot.RoseBot()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
+    robot.drive_system.spin_counterclockwise_until_sees_object()
+    robot.drive_system.go()
+    robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+    robot.drive_system.stop()
+    robot.arm_and_claw.raise_arm()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
+
+def put_away():
+    robot = rosebot.RoseBot()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
+    robot.drive_system.spin_clockwise_until_sees_object()
+    robot.drive_system.go()
+    robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+    robot.drive_system.stop()
+    robot.arm_and_claw.lower_arm()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
+
+def celebration():
+    robot = rosebot.RoseBot()
+    robot.sound_system.speech_maker()
+    robot.arm_and_claw.move_arm_to_position()
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
+
+def sleep():
+    robot = rosebot.RoseBot()
+    robot.led_system.right_led.turn_on()
+    robot.led_system.left_led.turn_on()
+    robot.sound_system.speech_maker()
+    robot.drive_system.go_straight_for_inches_using_encoder()
+    robot.drive_system.stop()
+    robot.arm_and_claw.raise_arm()
+    robot.led_system.right_led.turn_off()
+    robot.led_system.left_led.turn_off()
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
