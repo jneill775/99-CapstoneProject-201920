@@ -22,6 +22,10 @@ def main():
     # tones_9()
     # tones_9_cycle_faster()
     # cam_10()
+    search()
+    put_away()
+    celebration()
+    sleep()
 
 def run_test_arm():
     robot = rosebot.RoseBot()
