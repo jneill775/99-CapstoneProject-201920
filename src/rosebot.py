@@ -85,13 +85,13 @@ class DriveSystem(object):
                 self.go_straight_for_inches_using_time(dist, 100)
                 if robot.sensor_system.check_item() is True:
                     break
-                self.spin_clockwise_for_time(0.3, 100)
+                self.spin_clockwise_for_time(0.55, 100)
                 if robot.sensor_system.check_item() is True:
                     break
                 self.go_straight_for_inches_using_time(9, 100)
                 if robot.sensor_system.check_item() is True:
                     break
-                self.spin_clockwise_for_time(0.3, 100)
+                self.spin_clockwise_for_time(0.55, 100)
                 if robot.sensor_system.check_item() is True:
                     break
                 robot.tracker += 1
@@ -100,13 +100,13 @@ class DriveSystem(object):
                 self.go_straight_for_inches_using_time(dist, 100)
                 if robot.sensor_system.check_item() is True:
                     break
-                self.spin_clockwise_for_time(0.3, 100)
+                self.spin_counterclockwise_for_time(0.55, 100)
                 if robot.sensor_system.check_item() is True:
                     break
                 self.go_straight_for_inches_using_time(9, 100)
                 if robot.sensor_system.check_item() is True:
                     break
-                self.spin_clockwise_for_time(0.3, 100)
+                self.spin_counterclockwise_for_time(0.55, 100)
                 if robot.sensor_system.check_item() is True:
                     break
                 robot.tracker += 1
@@ -520,8 +520,9 @@ class SensorSystem(object):
         # self.display_system =
 
     def check_item(self):
+        robot = RoseBot()
 
-        if self.ir_proximity_sensor.get_distance_in_inches() <= 1:
+        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 5:
             return True
         else:
             return False
