@@ -140,7 +140,7 @@ def get_sprint3_frame(window, mqtt_sender):
     sweeps_label = ttk.Label(frame, text="# of sweeps: ")
     dist_entry = ttk.Entry(frame, width=8)
     sweeps_entry = ttk.Entry(frame, width=8)
-    go_button = ttk.Button(frame, text="Take Capitalist Pig to Gulag")
+    go_button = ttk.Button(frame, text="Take Kulak to Gulag")
     hail_button = ttk.Button(frame, text="Salute!")
 
 
@@ -168,7 +168,7 @@ def handle_feature_10(speed, clock, mqtt_sender):
     print("Feature 10")
     mqtt_sender.send_message("feature10_john", [speed.get(), clock.get()])
 def handle_sprint3(dist_entry, sweeps_entry, mqtt_sender):
-    mqtt_sender.send_message("sprint3", [dist_entry.get(), sweeps_entry.get()])
+    mqtt_sender.send_message("sprint3_m1", [dist_entry.get(), sweeps_entry.get()])
     print("Sprint 3")
 def handle_hail_button(mqtt_sender):
     print("Hail Stalin!")

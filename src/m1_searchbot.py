@@ -31,38 +31,38 @@ def sweep_plot(dist, sweeps):
         if k % 2 != 1:
             robot.drive_system.go_straight_for_inches_using_time(dist, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
-            robot.drive_system.spin_clockwise_for_time(0.6, 100)
+            robot.drive_system.spin_clockwise_for_time(0.63, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
             robot.drive_system.go_straight_for_inches_using_time(9, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
-            robot.drive_system.spin_clockwise_for_time(0.6, 100)
+            robot.drive_system.spin_clockwise_for_time(0.63, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
             robot.tracker += 1
             print(robot.tracker)
         if k % 2 == 1:
             robot.drive_system.go_straight_for_inches_using_time(dist, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
-            robot.drive_system.spin_counterclockwise_for_time(0.6, 100)
+            robot.drive_system.spin_counterclockwise_for_time(0.63, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
             robot.drive_system.go_straight_for_inches_using_time(9, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
-            robot.drive_system.spin_counterclockwise_for_time(0.6, 100)
+            robot.drive_system.spin_counterclockwise_for_time(0.63, 100)
             if check_item() is True:
-                robot.drive_system.go_straight_for_inches_using_time(3, -100)
+                robot.drive_system.go_straight_for_inches_using_time(2, -100)
                 break
             robot.tracker += 1
             print(robot.tracker)

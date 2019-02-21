@@ -103,16 +103,16 @@ class Reciever(object):
     def LEDfrequency(self,frequency):
         self.robot.drive_system.go_and_increase_LEDfrequency(int(frequency))
         print('Going with the higher frequency ')
-    #def feature10_john(self, speed, clock):
-        #if int(clock) == 0:
-            #self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
-            #elf.beepfreq(50, 50)
-        #elif int(clock) == 1:
-            #self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
-            #self.beepfreq(50, 50)
-        #else:
-            #pass
-    def sprint3(self, dist, sweeps):
+    def feature10_john(self, speed, clock):
+        if int(clock) == 0:
+            self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 50)
+            self.beepfreq(50, 50)
+        elif int(clock) == 1:
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
+            self.beepfreq(50, 50)
+        else:
+            pass
+    def sprint3_m1(self, dist, sweeps):
         print("Beginning sweep")
         m1_searchbot.sprint3(int(dist), int(sweeps))
 
