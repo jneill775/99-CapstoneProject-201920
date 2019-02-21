@@ -123,7 +123,6 @@ def main():
 #     mqtt_sender.send_message("left", [counter_entry.get(), counter_entry.get()])
 
 def cleaner_frame(window, mqtt_sender):
-
     frame = tkinter.Frame(window, borderwidth=100, bg='red')
     frame.grid()
     frame_label = ttk.Label(frame, text='Cleaner Bot', font='Arial 20 bold', background='gray')
@@ -143,22 +142,25 @@ def cleaner_frame(window, mqtt_sender):
 
     return frame
 
+
 def handle_search(mqtt_sender):
     print("Go get them!")
     mqtt_sender.send_message('search')
+
 
 def handle_put_away(mqtt_sender):
     print('Put them away!')
     mqtt_sender.send_message('put_away')
 
+
 def handle_celebrate(mqtt_sender):
     print('Finally Done!')
     mqtt_sender.send_message('celebration')
 
+
 def handle_sleep(mqtt_sender):
     print('Goodnight')
     mqtt_sender.send_message('sleep')
-
 
 
 # -----------------------------------------------------------------------------
