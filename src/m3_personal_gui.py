@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk
 from PIL import ImageTk as itk
 
+#yifei Xiao
 def control(window, mqtt_sender):
     """"
     Constructs and returns a frame on the given window, where the frame

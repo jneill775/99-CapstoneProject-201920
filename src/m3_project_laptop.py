@@ -4,6 +4,7 @@ from tkinter import ttk
 import m3_personal_gui as m3
 import time
 
+#yifei xiao
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
 
 def get_shared_frames(main_frame, mqtt_sender,delegate):
     control_panel = m3.control(main_frame, mqtt_sender)
-    canvas,cv = m3.canvas(main_frame)   
+    canvas,cv = m3.canvas(main_frame)
     delegate.canvas=cv
 
     return control_panel, canvas
