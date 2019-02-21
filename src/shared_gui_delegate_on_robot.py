@@ -7,6 +7,7 @@
   Winter term, 2018-2019.
 """
 import time
+import m1_searchbot
 
 class Reciever(object):
     def __init__(self, robot):
@@ -98,20 +99,6 @@ class Reciever(object):
     def display(self):
         self.robot.drive_system.display_camera_data()
         print('Displaying Camera Feed')
-    def beepfreq(self, f, m):
-        initialdist = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        self.robot.drive_system.go(100, 100)
-        while True:
-            percentdist = (self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() / initialdist)
-            pausetime = 3 * (percentdist) / ((int(m)) + ((int(f)) * (1-percentdist)))
-            self.robot.sound_system.beeper.beep().wait()
-            print(pausetime)
-            time.sleep(abs(pausetime))
-
-            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 3:
-                self.robot.drive_system.stop()
-                self.robot.arm_and_claw.raise_arm()
-                break
 
     def LEDfrequency(self,frequency):
         self.robot.drive_system.go_and_increase_LEDfrequency(int(frequency))
@@ -125,10 +112,14 @@ class Reciever(object):
             self.beepfreq(50, 50)
         else:
             pass
-    def sprint3(self, dist, sweeps):
+    def sprint3_m1(self, dist, sweeps):
         print("Beginning sweep")
-        self.robot.drive_system.sweep_plot(int(dist), int(sweeps))
+        m1_searchbot.sprint3(int(dist), int(sweeps))
+
+    def m1_hail(self):
         self.robot.arm_and_claw.raise_arm()
+        self.robot.sound_system.speech_maker.speak("Hail stalin")
+        self.robot.arm_and_claw.calibrate_arm()
 
 
 

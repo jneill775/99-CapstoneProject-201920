@@ -74,47 +74,6 @@ class DriveSystem(object):
 
         self.wheel_circumference = 1.3 * math.pi
 
-    def sweep_plot(self, dist, sweeps):
-        robot = RoseBot()
-        robot.tracker = 0
-        dist = int(dist)
-        sweeps = int(sweeps)
-
-        for k in range(sweeps):
-            if k % 2 != 1:
-                self.go_straight_for_inches_using_time(dist, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                self.spin_clockwise_for_time(0.55, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                self.go_straight_for_inches_using_time(9, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                self.spin_clockwise_for_time(0.55, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                robot.tracker += 1
-                print(robot.tracker)
-            if k % 2 == 1:
-                self.go_straight_for_inches_using_time(dist, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                self.spin_counterclockwise_for_time(0.55, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                self.go_straight_for_inches_using_time(9, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                self.spin_counterclockwise_for_time(0.55, 100)
-                if robot.sensor_system.check_item() is True:
-                    break
-                robot.tracker += 1
-                print(robot.tracker)
-            if robot.tracker == sweeps:
-                robot.sound_system.speech_maker.speak("Nothing found, returning")
-
-
     # -------------------------------------------------------------------------
     # Methods for driving with no external sensor (just the built-in encoders).
     # -------------------------------------------------------------------------
@@ -519,13 +478,6 @@ class SensorSystem(object):
         # self.beacon_system =
         # self.display_system =
 
-    def check_item(self):
-        robot = RoseBot()
-
-        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 5:
-            return True
-        else:
-            return False
 
 
 
