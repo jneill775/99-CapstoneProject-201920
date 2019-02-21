@@ -10,6 +10,7 @@
 import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
+import rosebot
 import m1_searchbot
 
 
@@ -131,15 +132,16 @@ def main():
 def get_sprint3_frame(window, mqtt_sender):
 
     # Construct the frame to return:
-    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame = tkinter.Frame(window, borderwidth=50, relief="ridge", bg='red')
     frame.grid()
 
-    title = ttk.Label(frame, text="Sprint 3")
+    title = ttk.Label(frame, text='Glorious Commissar Boris', font='Arial 18 bold', foreground='yellow', background='red')
     dist_label = ttk.Label(frame, text="Distance: ")
     sweeps_label = ttk.Label(frame, text="# of sweeps: ")
     dist_entry = ttk.Entry(frame, width=8)
     sweeps_entry = ttk.Entry(frame, width=8)
-    go_button = ttk.Button(frame, text="Go!")
+    go_button = ttk.Button(frame, text="Take Capitalist Pig to Gulag")
+    hail_button = ttk.Button(frame, text="Salute!")
 
 
 
@@ -149,9 +151,11 @@ def get_sprint3_frame(window, mqtt_sender):
     dist_entry.grid(row=1, column=1)
     sweeps_entry.grid(row=2, column=1)
     go_button.grid(row=3, column=1)
+    hail_button.grid(row=4, column=1)
 
 
-    go_button["command"] = lambda: handle_sprint3(dist_entry, sweeps_entry)
+    go_button["command"] = lambda: handle_sprint3(dist_entry, sweeps_entry, mqtt_sender)
+    hail_button["command"] = lambda: handle_hail_button(mqtt_sender)
 
     return frame
 
@@ -166,7 +170,9 @@ def handle_feature_10(speed, clock, mqtt_sender):
 def handle_sprint3(dist_entry, sweeps_entry, mqtt_sender):
     mqtt_sender.send_message("sprint3", [dist_entry.get(), sweeps_entry.get()])
     print("Sprint 3")
-
+def handle_hail_button(mqtt_sender):
+    print("Hail Stalin!")
+    mqtt_sender.send_message("m1_hail")
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

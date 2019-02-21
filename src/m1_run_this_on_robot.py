@@ -18,6 +18,8 @@ def main():
     #feature10_john()
     #beepfreq()
 
+    real_thing()
+
 
 def real_thing():
     robot = rosebot.RoseBot()
